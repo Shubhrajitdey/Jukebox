@@ -1,0 +1,103 @@
+
+package com.crio.codingame.entities;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.crio.codingame.exceptions.InvalidContestException;
+
+public class Contest extends BaseEntity{
+    private final String name;
+    private final List<Question> questions;
+    private final Level level;
+    private final User creator;
+    private final ContestStatus contestStatus;
+
+    public Contest(String id, String name, List<Question> questions, Level level, User creator,
+            ContestStatus contestStatus) {
+        this.id = id;
+        this.name = name;
+        this.questions = new ArrayList<>();
+        validateQuestionList(questions, level,id);
+        this.level = level;
+        this.creator = creator;
+        this.contestStatus = contestStatus;
+    }
+
+    private void validateQuestionList(List<Question> qList, Level contestLevel, String contestId) throws InvalidContestException {
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+
+
+
+    public List<Question> getQuestions() {
+        return questions.stream().collect(Collectors.toList());
+    }
+
+
+
+
+    public Level getLevel() {
+        return level;
+    }
+
+
+
+
+    public User getCreator() {
+        return creator;
+    }
+
+
+
+
+    public ContestStatus getContestStatus() {
+        return contestStatus;
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Contest other = (Contest) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+
+
+
+    @Override
+    public String toString() {
+        return "Contest [creator=" + creator + ", id=" + id + ", level=" + level + ", name=" + name + ", questions="
+                + questions + "]";
+    }
+
+}
+
