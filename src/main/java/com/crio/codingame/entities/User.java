@@ -1,4 +1,3 @@
-
 package com.crio.codingame.entities;
 
 import java.util.ArrayList;
@@ -10,12 +9,23 @@ public class User extends BaseEntity {
     private final String name;
     private final Integer score;
     private List <Contest> contests;
+    private UserContestQuestions userContestQuestions;
+
+    public User(String id, String name, Integer score, List<Contest> contests) {
+        this(id,name,score);
+        this.contests = contests;
+    }
 
     public User(String id, String name, Integer score) {
+        this(name,score);
         this.id = id;
+        this.contests = new ArrayList<Contest>();
+        this.userContestQuestions = new UserContestQuestions();
+    }
+
+    public User(String name, Integer score) {
         this.name = name;
         this.score = score;
-        this.contests = new ArrayList<Contest>();
     }
 
 
@@ -32,8 +42,25 @@ public class User extends BaseEntity {
         contests.add(contest);
     }
 
+    public void deleteContest(Contest contest){
+        contests.removeIf(c -> c.getId() == contest.getId());
+    }
+
     public List<Contest> getContests() {
         return contests.stream().collect(Collectors.toList());
+    }
+
+    public boolean checkIfContestExists(Contest contest){
+        for(Contest c : contests){
+            if(c.getId().equals(contest.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addContestQuestion(Contest contest, List<Question> qList){
+        userContestQuestions.addContestQuestion(contest, qList);
     }
 
 
@@ -63,11 +90,11 @@ public class User extends BaseEntity {
         return true;
     }
 
-
     @Override
     public String toString() {
-        return "User [contests=" + contests + ", name=" + name + ", score=" + score + "]";
+        return "User [id=" + id + ", contests=" + contests + ", name=" + name + ", score=" + score + "]";
     }
+    
     
     
 }

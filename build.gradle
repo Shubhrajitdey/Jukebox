@@ -2,10 +2,16 @@ plugins {
 	id 'org.springframework.boot' version '2.6.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'application'
 }
 
 ext {
 	buildId = System.currentTimeMillis()
+	codinGameMainClass = "com.crio.codingame.App"
+}
+
+application {
+    mainClass = codinGameMainClass
 }
 
 group = 'com.crio'
@@ -44,3 +50,4 @@ test {
 		}
 	}
 }
+
