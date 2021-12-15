@@ -1,4 +1,3 @@
-
 package com.crio.codingame.exceptions;
 
 public class InvalidContestException extends RuntimeException{
