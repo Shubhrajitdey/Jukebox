@@ -15,16 +15,10 @@ public class QuestionService implements IQuestionService{
 
     @Override
     public Question create(String title, Level level, Integer difficultyScore) {
-        final Question question = new Question(title,level, difficultyScore);
-        return questionRepository.save(question);
     }
 
     @Override
     public List<Question> getAllQuestionLevelWise(Level level) {
-        if(level == null){
-            return questionRepository.findAll();
-        }
-        return questionRepository.findAllQuestionLevelWise(level);
     }
     
 }
