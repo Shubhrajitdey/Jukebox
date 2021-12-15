@@ -41,9 +41,6 @@ public class Question extends BaseEntity {
         return true;
     }
 
-    
-
-
     public String getTitle() {
         return title;
     }
@@ -63,9 +60,6 @@ public class Question extends BaseEntity {
     public String toString() {
         return "Question [id=" + id + ", level=" + level + ", score=" + score + ", title=" + title + "]";
     }
-
-    
-
     
 }
 

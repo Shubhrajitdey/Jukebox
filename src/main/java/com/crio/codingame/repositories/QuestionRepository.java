@@ -37,7 +37,6 @@ public class QuestionRepository implements IQuestionRepository {
 
     @Override
     public List<Question> findAll() {
-        return questionMap.values().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -71,7 +70,6 @@ public class QuestionRepository implements IQuestionRepository {
 
     @Override
     public List<Question> findAllQuestionLevelWise(Level level) {
-        return questionMap.values().stream().filter(q -> q.getLevel().toString().equals(level.toString())).collect(Collectors.toList());
     }
     
 }
