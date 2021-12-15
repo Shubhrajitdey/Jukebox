@@ -88,10 +88,5 @@ public class Contest extends BaseEntity{
         return "Contest [id=" + id + ", name=" + name + ", level=" + level + ", creator=" + creator.getName() + ", contestStatus=" + contestStatus + ", questions=" + questions + "]";
     }
 
-
-    
-
-    
-
 }
 

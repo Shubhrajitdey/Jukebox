@@ -27,16 +27,10 @@ public class UserService implements IUserService {
 
     @Override
     public User create(String name) {
-        final User user = new User(name,0);
-        return userRepository.save(user);
     }
 
     @Override
     public List<User> getAllUserScoreOrderWise(ScoreOrder scoreOrder) throws InvalidOperationException {
-        if(ScoreOrder.ASC.equals(scoreOrder)){
-           return userRepository.findAll().stream().sorted((u1,u2) -> u1.getScore()-u2.getScore()).collect(Collectors.toList());
-        }
-        return userRepository.findAll().stream().sorted((u1,u2) -> u2.getScore()-u1.getScore()).collect(Collectors.toList());
     }
 
     @Override
@@ -51,14 +45,6 @@ public class UserService implements IUserService {
 
     @Override
     public UserRegistrationDto withdrawContest(String contestId, String userName) throws ContestNotFoundException, UserNotFoundException, InvalidOperationException {
-        Contest contest = contestRepository.findById(contestId).orElseThrow(ContestNotFoundException::new);
-        User user = userRepository.findByName(userName).orElseThrow(UserNotFoundException::new);
-        if(contest.getContestStatus().equals(ContestStatus.IN_PROGRESS) || contest.getContestStatus().equals(ContestStatus.ENDED)){
-            throw new InvalidOperationException();
-        }
-        user.deleteContest(contest);
-        userRepository.save(user);
-        return new UserRegistrationDto(contest.getName(), user.getName(), RegisterationStatus.NOT_REGISTERED);
     }
     
 }

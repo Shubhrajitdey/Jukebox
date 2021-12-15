@@ -36,7 +36,6 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public List<User> findAll() {
-        return userMap.values().stream().collect(Collectors.toList());
     }
 
     @Override

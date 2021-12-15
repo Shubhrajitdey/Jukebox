@@ -39,7 +39,6 @@ public class ContestRepository implements IContestRepository {
 
     @Override
     public List<Contest> findAll() {
-        return contestMap.values().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -73,7 +72,6 @@ public class ContestRepository implements IContestRepository {
 
     @Override
     public List<Contest> findAllContestLevelWise(Level level) {
-        return contestMap.values().stream().filter(c -> c.getLevel().toString().equals(level.toString())).collect(Collectors.toList());
     }
 
     

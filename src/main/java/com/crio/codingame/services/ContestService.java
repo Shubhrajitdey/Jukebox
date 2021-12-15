@@ -55,26 +55,10 @@ public class ContestService implements IContestService {
     }
 
     private List<Question> pickQuestionsList(final List<Question> questions,final Integer numQuestion){
-        List<Question> pickedqList= new ArrayList<Question>();
-        int questionSize = questions.size();
-        int epoch = questionSize / numQuestion;
-        int j= 0;
-        for(int i=0 ; i < questionSize; i=i+epoch ){
-            j++;
-            pickedqList.add(questions.get(i));
-            if(j==numQuestion){
-                break;
-            }
-        }
-        return pickedqList;
     }
 
     @Override
     public List<Contest> getAllContestLevelWise(Level level) {
-        if(level == null){
-            return contestRepository.findAll();
-        }
-        return contestRepository.findAllContestLevelWise(level);
     }
 
     @Override
