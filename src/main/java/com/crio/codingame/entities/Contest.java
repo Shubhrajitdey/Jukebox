@@ -12,14 +12,19 @@ public class Contest extends BaseEntity{
     private final List<Question> questions;
     private final Level level;
     private final User creator;
-    private final ContestStatus contestStatus;
+    private ContestStatus contestStatus;
 
     public Contest(String id, String name, List<Question> questions, Level level, User creator,
             ContestStatus contestStatus) {
+        this(name,questions,level,creator,contestStatus);
         this.id = id;
+    }
+
+    public Contest(String name, List<Question> questions, Level level, User creator,
+            ContestStatus contestStatus) {
         this.name = name;
         this.questions = new ArrayList<>();
-        validateQuestionList(questions, level,id);
+        validateQuestionList(questions, level);
         this.level = level;
         this.creator = creator;
         this.contestStatus = contestStatus;
@@ -31,42 +36,32 @@ public class Contest extends BaseEntity{
     //  1. There can be few unused imports, you will need to fix them to make the build pass.
     //  2. You can use "./gradlew build" to check if your code builds successfully.
 
-    private void validateQuestionList(List<Question> qList, Level contestLevel, String contestId) throws InvalidContestException {
+    private void validateQuestionList(List<Question> qList, Level contestLevel) throws InvalidContestException {
     }
 
+    public void endContest(){
+        this.contestStatus = ContestStatus.ENDED;
+    }
 
     public String getName() {
         return name;
     }
 
-
-
-
     public List<Question> getQuestions() {
         return questions.stream().collect(Collectors.toList());
     }
-
-
-
 
     public Level getLevel() {
         return level;
     }
 
-
-
-
     public User getCreator() {
         return creator;
     }
 
-
-
-
     public ContestStatus getContestStatus() {
         return contestStatus;
     }
-
 
     @Override
     public int hashCode() {
@@ -75,9 +70,6 @@ public class Contest extends BaseEntity{
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
-
-
-
 
     @Override
     public boolean equals(Object obj) {
@@ -97,13 +89,15 @@ public class Contest extends BaseEntity{
     }
 
 
-
-
     @Override
     public String toString() {
-        return "Contest [creator=" + creator + ", id=" + id + ", level=" + level + ", name=" + name + ", questions="
-                + questions + "]";
+        return "Contest [id=" + id + ", name=" + name + ", level=" + level + ", creator=" + creator.getName() + ", contestStatus=" + contestStatus + ", questions=" + questions + "]";
     }
+
+
+    
+
+    
 
 }
 
