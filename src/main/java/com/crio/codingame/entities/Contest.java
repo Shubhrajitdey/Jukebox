@@ -37,6 +37,7 @@ public class Contest extends BaseEntity{
     private void validateQuestionList(List<Question> qList, Level contestLevel) throws InvalidContestException {
     }
 
+
     public void endContest(){
     }
     
