@@ -37,6 +37,9 @@ public class Contest extends BaseEntity{
     private void validateQuestionList(List<Question> qList, Level contestLevel) throws InvalidContestException {
     }
 
+    // TODO: CRIO_TASK_MODULE_SERVICES
+    // Change the Contest Status to ENDED
+
     public void endContest(){
     }
     
