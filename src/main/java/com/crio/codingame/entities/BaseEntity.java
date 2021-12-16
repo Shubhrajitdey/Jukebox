@@ -1,6 +1,6 @@
 package com.crio.codingame.entities;
 
-public class BaseEntity {
+public abstract class BaseEntity {
     protected String id;
 
     public String getId() {

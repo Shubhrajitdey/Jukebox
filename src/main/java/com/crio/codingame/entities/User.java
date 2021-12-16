@@ -10,6 +10,12 @@ public class User extends BaseEntity {
     private final Integer score;
     private List <Contest> contests;
     private UserContestQuestions userContestQuestions;
+
+    public User(User user){
+        this(user.id,user.name,user.score,user.contests);
+        userContestQuestions = user.userContestQuestions;
+    }
+
     public User(String id, String name, Integer score, List<Contest> contests) {
         this(id,name,score);
         this.contests = contests;
@@ -18,20 +24,18 @@ public class User extends BaseEntity {
     public User(String id, String name, Integer score) {
         this(name,score);
         this.id = id;
-        this.contests = new ArrayList<Contest>();
         this.userContestQuestions = new UserContestQuestions();
     }
 
     public User(String name, Integer score) {
         this.name = name;
         this.score = score;
+        this.contests = new ArrayList<Contest>();
     }
-
 
     public String getName() {
         return name;
     }
-
 
     public Integer getScore() {
         return score;
@@ -49,12 +53,8 @@ public class User extends BaseEntity {
         return contests.stream().collect(Collectors.toList());
     }
 
+
     public boolean checkIfContestExists(Contest contest){
-        for(Contest c : contests){
-            if(c.getId().equals(contest.getId())){
-                return true;
-            }
-        }
         return false;
     }
 
