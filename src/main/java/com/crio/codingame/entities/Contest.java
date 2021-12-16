@@ -34,10 +34,7 @@ public class Contest extends BaseEntity{
     private void validateQuestionList(List<Question> qList, Level contestLevel) throws InvalidContestException {
     }
 
-    // TODO: CRIO_TASK_MODULE_ENTITIES
-    // Change the Contest Status to ENDED
-    public void endContest(){
-    }
+
     
     public String getName() {
         return name;
