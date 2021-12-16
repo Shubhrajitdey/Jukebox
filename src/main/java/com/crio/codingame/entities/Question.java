@@ -5,10 +5,7 @@ public class Question extends BaseEntity {
     private final String title;
     private final Level level;
     private final Integer score;
-    public Question(String id, String title, Level level, Integer score) {
-        this(title,level,score);
-        this.id = id;
-    }
+
 
     public Question(String title, Level level, Integer score) {
         this.title = title;

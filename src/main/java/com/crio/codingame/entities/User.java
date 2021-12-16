@@ -9,27 +9,16 @@ public class User extends BaseEntity {
     private final String name;
     private final Integer score;
     private List <Contest> contests;
-    public User(String id, String name, Integer score, List<Contest> contests) {
-        this(id,name,score);
-        this.contests = contests;
-    }
-
-    public User(String id, String name, Integer score) {
-        this(name,score);
-        this.id = id;
-        this.contests = new ArrayList<Contest>();
-    }
 
     public User(String name, Integer score) {
         this.name = name;
         this.score = score;
+        this.contests = new ArrayList<Contest>();
     }
-
 
     public String getName() {
         return name;
     }
-
 
     public Integer getScore() {
         return score;
@@ -46,16 +35,6 @@ public class User extends BaseEntity {
     public List<Contest> getContests() {
         return contests.stream().collect(Collectors.toList());
     }
-
-    public boolean checkIfContestExists(Contest contest){
-        for(Contest c : contests){
-            if(c.getId().equals(contest.getId())){
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     @Override
     public int hashCode() {

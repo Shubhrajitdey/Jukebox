@@ -8,9 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.crio.codingame.commands.CommandInvoker;
-import com.crio.codingame.config.ApplicationConfig;
-import com.crio.codingame.exceptions.NoSuchCommandException;
 
 public class App {
     public static void main(String[] args) {
