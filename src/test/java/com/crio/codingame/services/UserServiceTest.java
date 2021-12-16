@@ -298,5 +298,28 @@ public class UserServiceTest {
         verify(userRepositoryMock,times(0)).save(any(User.class));
     }
 
+    @Test
+    @DisplayName("withdrawContest method should Throw InvalidOperationException if User is the ContestCreator")
+    public void withdrawContest_ShouldThrowInvalidOperationException_GivenContestCreator(){
+        //Arrange
+        List<Question> questionList = new ArrayList<Question>(){
+            {
+                add(new Question("1", "title1", Level.LOW, 100));
+                add(new Question("2", "title2", Level.LOW, 90));
+                add(new Question("3", "title3", Level.LOW, 80));
+            }
+        };
+        User contestCreator = new User("1","creator",0);
+        Contest contest = new Contest("1","contestName",questionList,Level.LOW, contestCreator,ContestStatus.ENDED);
+        when(contestRepositoryMock.findById(anyString())).thenReturn(Optional.of(contest));
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(contestCreator));
+        //Act and Assert
+
+        Assertions.assertThrows(InvalidOperationException.class,()-> userService.withdrawContest("1", "creator"));
+        verify(contestRepositoryMock,times(1)).findById(anyString());
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+        verify(userRepositoryMock,times(0)).save(any(User.class));
+    }
+
     
 }

@@ -1,5 +1,6 @@
 package com.crio.codingame.repositories;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +38,13 @@ public class ContestRepository implements IContestRepository {
         return entity;
     }
 
+    // TODO: CRIO_TASK_MODULE_SERVICES
+    // Find all the list of Contest Present in the Repository
+    // Tip:- Use Java Streams
+
     @Override
     public List<Contest> findAll() {
+     return Collections.emptyList();
     }
 
     @Override
@@ -70,8 +76,13 @@ public class ContestRepository implements IContestRepository {
         return 0;
     }
 
+    // TODO: CRIO_TASK_MODULE_SERVICES
+    // Find all the list of Contest Present in the Repository provided Level
+    // Tip:- Use Java Streams
+
     @Override
     public List<Contest> findAllContestLevelWise(Level level) {
+     return Collections.emptyList();
     }
 
     

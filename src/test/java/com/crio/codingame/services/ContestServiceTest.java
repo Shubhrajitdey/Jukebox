@@ -7,9 +7,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.crio.codingame.dtos.UserRegistrationDto;
 import com.crio.codingame.entities.Contest;
 import com.crio.codingame.entities.ContestStatus;
 import com.crio.codingame.entities.Level;
@@ -17,6 +20,8 @@ import com.crio.codingame.entities.Question;
 import com.crio.codingame.entities.User;
 import com.crio.codingame.exceptions.ContestNotFoundException;
 import com.crio.codingame.exceptions.InvalidOperationException;
+import com.crio.codingame.exceptions.QuestionNotFoundException;
+import com.crio.codingame.exceptions.UserNotFoundException;
 import com.crio.codingame.repositories.ContestRepository;
 import com.crio.codingame.repositories.QuestionRepository;
 import com.crio.codingame.repositories.UserRepository;
@@ -47,33 +52,151 @@ public class ContestServiceTest {
     @Mock
     private QuestionRepository questionRepositoryMock;
 
+    @Mock
+    private UserService userServiceMock;
+
     @InjectMocks
     private ContestService contestService;
 
-    /*
     @Test
-    @DisplayName("create method should create Contest ")
-    public void create_ShouldReturnContest(){
+    @DisplayName("create method Should Throw UserNotFoundException If No Creator User Found")
+    public void create_ShouldThrowUserNotFoundException(){
         //Arrange
-        List<Question> questionList = new ArrayList<Question>(){
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.empty());
+
+        //Act and Assert
+        Assertions.assertThrows(UserNotFoundException.class,()-> contestService.create("contest4",Level.LOW,"contestCreator",4));
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+    }
+
+    @Test
+    @DisplayName("create method Should Throw QuestionNotFoundException If No Questions Found in Repository Given Level")
+    public void create_ShouldThrowQuestionNotFoundException(){
+        //Arrange
+        final User user = new User("4","user4",0);
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(user));
+        when(questionRepositoryMock.findAllQuestionLevelWise(any(Level.class))).thenReturn(Collections.emptyList());
+
+        //Act and Assert
+        Assertions.assertThrows(QuestionNotFoundException.class,()-> contestService.create("contest4",Level.LOW,"contestCreator",4));
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+        verify(questionRepositoryMock,times(1)).findAllQuestionLevelWise(any(Level.class));
+    }
+
+    @Test
+    @DisplayName("create method Should Create Contest with All Questions Given NumQuestions is Empty")
+    public void create_ShouldCreateContest_GivenNumQuestionsEmpty(){
+        //Arrange
+        final List<Question> questionLow = new ArrayList<Question>(){
             {
-                add(new Question("1", "title1", Level.LOW, 100));
-                add(new Question("2", "title2", Level.LOW, 90));
-                add(new Question("3", "title3", Level.LOW, 80));
+                add(new Question("4", "title4", Level.LOW,10));
+                add(new Question("5", "title5", Level.LOW,10));
             }
         };
-        User contestCreator = new User("1","creator",0);
-        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(contestCreator));
-        when(questionRepositoryMock.findAllQuestionLevelWise(anyString())).thenReturn(questionList);
+        final User user = new User("4","user4",0);
+        Contest expectedContest = new Contest("4","contest4",questionLow,Level.LOW, user,ContestStatus.NOT_STARTED);
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(user));
+        when(questionRepositoryMock.findAllQuestionLevelWise(any(Level.class))).thenReturn(questionLow);
+        when(contestRepositoryMock.save(any(Contest.class))).thenReturn(expectedContest);
+        when(userServiceMock.attendContest(anyString(),anyString())).thenReturn(any(UserRegistrationDto.class));
 
         //Act
-        User actualUser = userService.create("Yakshit");
+        Contest actualContest = contestService.create("contest4",Level.LOW,"contestCreator",null);
 
         //Assert
-        Assertions.assertEquals(expectedUser,actualUser);
-        verify(userRepositoryMock,times(1)).save(any(User.class));
+        Assertions.assertEquals(expectedContest, actualContest);
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+        verify(questionRepositoryMock,times(1)).findAllQuestionLevelWise(any(Level.class));
+        verify(contestRepositoryMock,times(1)).save(any(Contest.class));
+        verify(userServiceMock,times(1)).attendContest(anyString(),anyString());
     }
-*/
+
+    @Test
+    @DisplayName("create method Should Create Contest with All Questions Given NumQuestions is Zero")
+    public void create_ShouldCreateContest_GivenNumQuestionsZero(){
+        //Arrange
+        final List<Question> questionLow = new ArrayList<Question>(){
+            {
+                add(new Question("4", "title4", Level.LOW,10));
+                add(new Question("5", "title5", Level.LOW,10));
+            }
+        };
+        final User user = new User("4","user4",0);
+        Contest expectedContest = new Contest("4","contest4",questionLow,Level.LOW, user,ContestStatus.NOT_STARTED);
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(user));
+        when(questionRepositoryMock.findAllQuestionLevelWise(any(Level.class))).thenReturn(questionLow);
+        when(contestRepositoryMock.save(any(Contest.class))).thenReturn(expectedContest);
+        when(userServiceMock.attendContest(anyString(),anyString())).thenReturn(any(UserRegistrationDto.class));
+
+        //Act
+        Contest actualContest = contestService.create("contest4",Level.LOW,"contestCreator",0);
+
+        //Assert
+        Assertions.assertEquals(expectedContest, actualContest);
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+        verify(questionRepositoryMock,times(1)).findAllQuestionLevelWise(any(Level.class));
+        verify(contestRepositoryMock,times(1)).save(any(Contest.class));
+        verify(userServiceMock,times(1)).attendContest(anyString(),anyString());
+    }
+
+    @Test
+    @DisplayName("create method Should Create Contest with All Questions Given NumQuestions is More than available questions in the repository")
+    public void create_ShouldCreateContest_GivenNumQuestionsMoreThanAvailableQuestions(){
+        //Arrange
+        final List<Question> questionLow = new ArrayList<Question>(){
+            {
+                add(new Question("4", "title4", Level.LOW,10));
+                add(new Question("5", "title5", Level.LOW,10));
+            }
+        };
+        final User user = new User("4","user4",0);
+        Contest expectedContest = new Contest("4","contest4",questionLow,Level.LOW, user,ContestStatus.NOT_STARTED);
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(user));
+        when(questionRepositoryMock.findAllQuestionLevelWise(any(Level.class))).thenReturn(questionLow);
+        when(contestRepositoryMock.save(any(Contest.class))).thenReturn(expectedContest);
+        when(userServiceMock.attendContest(anyString(),anyString())).thenReturn(any(UserRegistrationDto.class));
+
+        //Act
+        Contest actualContest = contestService.create("contest4",Level.LOW,"contestCreator",3);
+
+        //Assert
+        Assertions.assertEquals(expectedContest, actualContest);
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+        verify(questionRepositoryMock,times(1)).findAllQuestionLevelWise(any(Level.class));
+        verify(contestRepositoryMock,times(1)).save(any(Contest.class));
+        verify(userServiceMock,times(1)).attendContest(anyString(),anyString());
+    }
+
+    @Test
+    @DisplayName("create method Should Create Contest with Questions Given NumQuestions")
+    public void create_ShouldCreateContest_GivenNumQuestions(){
+        //Arrange
+        final List<Question> questionLow = new ArrayList<Question>(){
+            {
+                add(new Question("4", "title4", Level.LOW,10));
+                add(new Question("5", "title5", Level.LOW,10));
+            }
+        };
+        final User user = new User("4","user4",0);
+        Contest expectedContest = new Contest("4","contest4",questionLow,Level.LOW, user,ContestStatus.NOT_STARTED);
+        when(userRepositoryMock.findByName(anyString())).thenReturn(Optional.of(user));
+        when(questionRepositoryMock.findAllQuestionLevelWise(any(Level.class))).thenReturn(questionLow);
+        when(contestRepositoryMock.save(any(Contest.class))).thenReturn(expectedContest);
+        when(userServiceMock.attendContest(anyString(),anyString())).thenReturn(any(UserRegistrationDto.class));
+
+        //Act
+        Contest actualContest = contestService.create("contest4",Level.LOW,"contestCreator",1);
+
+        //Assert
+        Assertions.assertEquals(expectedContest.getQuestions().size(), actualContest.getQuestions().size());
+        verify(userRepositoryMock,times(1)).findByName(anyString());
+        verify(questionRepositoryMock,times(1)).findAllQuestionLevelWise(any(Level.class));
+        verify(contestRepositoryMock,times(1)).save(any(Contest.class));
+        verify(userServiceMock,times(1)).attendContest(anyString(),anyString());
+    }
+
+
+
     @Test
     @DisplayName("getAllContestLevelWise method should return List of Contest if input is null")
     public void getAllContestLevelWise_ShouldReturnAllContestList(){
