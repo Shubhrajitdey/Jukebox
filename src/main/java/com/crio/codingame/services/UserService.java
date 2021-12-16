@@ -24,10 +24,10 @@ public class UserService implements IUserService {
         this.userRepository = userRepository;
         this.contestRepository = contestRepository;
     }
-
     @Override
     public User create(String name) {
     }
+
 
     @Override
     public List<User> getAllUserScoreOrderWise(ScoreOrder scoreOrder) throws InvalidOperationException {

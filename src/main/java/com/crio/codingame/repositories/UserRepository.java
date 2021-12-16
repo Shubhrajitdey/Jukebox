@@ -34,6 +34,7 @@ public class UserRepository implements IUserRepository{
         return entity;
     }
 
+
     @Override
     public List<User> findAll() {
     }
@@ -67,9 +68,9 @@ public class UserRepository implements IUserRepository{
         return 0;
     }
 
+
     @Override
     public Optional<User> findByName(String name) {
-        return userMap.values().stream().filter(u -> u.getName().equals(name)).findAny();
     }
     
 }

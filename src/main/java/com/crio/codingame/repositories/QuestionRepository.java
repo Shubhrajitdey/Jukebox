@@ -35,6 +35,7 @@ public class QuestionRepository implements IQuestionRepository {
         return entity;
     }
 
+
     @Override
     public List<Question> findAll() {
     }
@@ -67,6 +68,7 @@ public class QuestionRepository implements IQuestionRepository {
         // TODO Auto-generated method stub
         return 0;
     }
+
 
     @Override
     public List<Question> findAllQuestionLevelWise(Level level) {

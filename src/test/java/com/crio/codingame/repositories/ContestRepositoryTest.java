@@ -122,6 +122,7 @@ public class ContestRepositoryTest {
         List<Contest> expectedContests = new ArrayList<Contest>(){
             {
                 add(new Contest("2","contest2",questionMedium,Level.MEDIUM, user2,ContestStatus.NOT_STARTED));
+                add(new Contest("3","contest3",questionMedium,Level.MEDIUM, user2,ContestStatus.NOT_STARTED));
             }
         };
         //Act

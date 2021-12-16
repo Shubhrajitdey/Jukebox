@@ -1,6 +1,7 @@
 package com.crio.codingame.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -40,10 +41,10 @@ public class ContestService implements IContestService {
     public Contest create(String contestName, Level level, String contestCreator, Integer numQuestion) throws UserNotFoundException, QuestionNotFoundException {
         final User user = userRepository.findByName(contestCreator).orElseThrow(UserNotFoundException::new);
         final List<Question> questions = questionRepository.findAllQuestionLevelWise(level);
-        if(questions == null ){
+        if(questions.isEmpty()){
             throw new QuestionNotFoundException();
         }
-        if(numQuestion == null || questions.size() <= numQuestion){
+        if(numQuestion == null || numQuestion == 0 || questions.size() <= numQuestion){
             Contest contest = contestRepository.save(new Contest(contestName, questions,level,user,ContestStatus.NOT_STARTED));
             userService.attendContest(contest.getId(),contestCreator);
             return contest;
@@ -54,8 +55,10 @@ public class ContestService implements IContestService {
         return contest;
     }
 
+
     private List<Question> pickQuestionsList(final List<Question> questions,final Integer numQuestion){
     }
+
 
     @Override
     public List<Contest> getAllContestLevelWise(Level level) {
@@ -69,26 +72,25 @@ public class ContestService implements IContestService {
         final int scoreWeight = ScoreWeight.valueOf(contestLevel).getWeight();
         final List<User> allContestUser = userRepository.findAll().stream().filter(u -> u.checkIfContestExists(contest)).collect(Collectors.toList());
         List<Question> qList = contest.getQuestions();
-        contest.endContest();
-        Contest endedContest = contestRepository.save(contest);
+        Contest clonedContest = new Contest(contest);
+        clonedContest.endContest();
         List<User> userResultList = new ArrayList<>();
         allContestUser.forEach(user ->{
             final List<Question> solvedQuestions = pickRandomQuestions(qList);
             User userNewScore = calculateUserNewScore(scoreWeight,user,solvedQuestions);
-            userNewScore.addContestQuestion(endedContest, solvedQuestions);
+            userNewScore.addContestQuestion(clonedContest, solvedQuestions);
             userResultList.add(userNewScore);
             userRepository.save(userNewScore);
         });
+        contest.endContest();
+        Contest endedContest = contestRepository.save(contest);
        return new ContestSummaryDto(endedContest,userResultList);
     }
 
+    
     private void validateContest(final Contest contest, final String contestCreator) throws InvalidContestException {
-        if(contest.getContestStatus().equals(ContestStatus.IN_PROGRESS) || contest.getContestStatus().equals(ContestStatus.ENDED) || !contest.getCreator().getName().equals(contestCreator)){
-            throw new InvalidOperationException();
-        }
     }
 
-    //Reference:- https://www.geeksforgeeks.org/randomly-select-items-from-a-list-in-java/
     private List<Question> pickRandomQuestions(final List<Question> questions){
         List<Question> qList = questions.stream().collect(Collectors.toList());
         int size = qList.size();

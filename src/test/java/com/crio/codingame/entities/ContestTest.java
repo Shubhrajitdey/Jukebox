@@ -1,4 +1,3 @@
-
 package com.crio.codingame.entities;
 
 import java.util.ArrayList;
@@ -20,9 +19,30 @@ public class ContestTest {
 
 
 
+   @Test
+   @DisplayName("#1 Contest should throw InvalidContestException if any Question Level in the List is not equal to Contest Level")
+   public void contest_ShouldThrowInvalidContestException_GivenInvalidQuestionList(){
+       //Arrange
+       String name = "Crio.Do PhonePe TechScholars Assessment #1";
+       List<Question> questions =  new ArrayList<Question>(){
+           {
+           add(new Question("Question1",Level.LOW,10));
+           add(new Question("Question2",Level.LOW,20));
+           add(new Question("Question3",Level.HIGH,30));
+           }
+       };
+       Level level = Level.LOW;
+       User creator = new User("Yakshit",0);
+       ContestStatus contestStatus = ContestStatus.IN_PROGRESS;
+
+       //Act and Assert
+       Assertions.assertThrows(InvalidContestException.class,() -> new Contest(name, questions, level, creator, contestStatus));
+   }
+
+
     @Test
-    @DisplayName("#1 Contest should throw InvalidContestException if any Question Level in the List is not equal to Contest Level")
-    public void contest_ShouldThrowInvalidContestException_GivenInvalidQuestionList(){
+    @DisplayName("endContest method Should End Contest")
+    public void endContest_ShouldEndContest(){
         //Arrange
         String id = "1";
         String name = "Crio.Do PhonePe TechScholars Assessment #1";
@@ -30,17 +50,20 @@ public class ContestTest {
             {
             add(new Question("1", "Question1",Level.LOW,10));
             add(new Question("1", "Question2",Level.LOW,20));
-            add(new Question("1", "Question3",Level.HIGH,30));
+            add(new Question("1", "Question3",Level.LOW,30));
             }
         };
         Level level = Level.LOW;
         User creator = new User("1","Yakshit",0);
         ContestStatus contestStatus = ContestStatus.IN_PROGRESS;
+        Contest contest = new Contest(id, name, questions, level, creator, contestStatus);
+
+        //Act
+        contest.endContest();
 
         //Act and Assert
-        Assertions.assertThrows(InvalidContestException.class,() -> new Contest(id, name, questions, level, creator, contestStatus));
+        Assertions.assertEquals(contest.getContestStatus(),ContestStatus.ENDED);
     }
-
 
 
 }
