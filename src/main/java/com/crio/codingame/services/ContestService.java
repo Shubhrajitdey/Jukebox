@@ -73,7 +73,7 @@ public class ContestService implements IContestService {
     }
 
     @Override
-    public ContestSummaryDto runContest(String contestId, String contestCreator) throws ContestNotFoundException, InvalidOperationException {
+    public ContestSummaryDto runContest(String contestId, String contestCreator) throws ContestNotFoundException {
         final Contest contest = contestRepository.findById(contestId).orElseThrow(ContestNotFoundException::new);
         validateContest(contest, contestCreator);
         final String contestLevel = contest.getLevel().toString();
