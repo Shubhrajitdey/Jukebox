@@ -1,6 +1,7 @@
 package com.crio.codingame.commands;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -78,7 +79,7 @@ public class ListQuestionCommandTest {
         };
         String expectedOutput = "[Question [id=1, level=LOW, score=100, title=title1], Question [id=2, level=MEDIUM, score=200, title=title2], Question [id=3, level=HIGH, score=300, title=title3]]";
         
-        when(questionServiceMock.getAllQuestionLevelWise(null)).thenReturn(questionList);
+        when(questionServiceMock.getAllQuestionLevelWise(isNull())).thenReturn(questionList);
 
         //Act
         listQuestionCommand.execute(List.of("LIST-QUESTION"));
@@ -86,7 +87,7 @@ public class ListQuestionCommandTest {
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
 
-        verify(questionServiceMock,times(1)).getAllQuestionLevelWise(null);
+        verify(questionServiceMock,times(1)).getAllQuestionLevelWise(isNull());
     }
 
     @AfterEach

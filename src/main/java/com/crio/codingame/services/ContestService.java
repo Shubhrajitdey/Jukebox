@@ -1,7 +1,6 @@
 package com.crio.codingame.services;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -15,7 +14,6 @@ import com.crio.codingame.entities.ScoreWeight;
 import com.crio.codingame.entities.User;
 import com.crio.codingame.exceptions.ContestNotFoundException;
 import com.crio.codingame.exceptions.InvalidContestException;
-import com.crio.codingame.exceptions.InvalidOperationException;
 import com.crio.codingame.exceptions.QuestionNotFoundException;
 import com.crio.codingame.exceptions.UserNotFoundException;
 import com.crio.codingame.repositories.IContestRepository;
@@ -39,10 +37,10 @@ public class ContestService implements IContestService {
 
     @Override
     public Contest create(String contestName, Level level, String contestCreator, Integer numQuestion) throws UserNotFoundException, QuestionNotFoundException {
-        final User user = userRepository.findByName(contestCreator).orElseThrow(UserNotFoundException::new);
+        final User user = userRepository.findByName(contestCreator).orElseThrow(() -> new UserNotFoundException("Cannot Create Contest. Contest Creator for given name: " + contestCreator + " not found!"));
         final List<Question> questions = questionRepository.findAllQuestionLevelWise(level);
         if(questions.isEmpty()){
-            throw new QuestionNotFoundException();
+            throw new QuestionNotFoundException("Cannot create Contest. Enough number of questions can not found. Please try again later!");
         }
         if(numQuestion == null || numQuestion == 0 || questions.size() <= numQuestion){
             Contest contest = contestRepository.save(new Contest(contestName, questions,level,user,ContestStatus.NOT_STARTED));
@@ -65,8 +63,8 @@ public class ContestService implements IContestService {
     }
 
     @Override
-    public ContestSummaryDto runContest(String contestId, String contestCreator) throws ContestNotFoundException {
-        final Contest contest = contestRepository.findById(contestId).orElseThrow(ContestNotFoundException::new);
+    public ContestSummaryDto runContest(String contestId, String contestCreator) throws ContestNotFoundException, InvalidContestException {
+        final Contest contest = contestRepository.findById(contestId).orElseThrow(() -> new ContestNotFoundException("Cannot Run Contest. Contest for given id:"+contestId+" not found!"));
         validateContest(contest, contestCreator);
         final String contestLevel = contest.getLevel().toString();
         final int scoreWeight = ScoreWeight.valueOf(contestLevel).getWeight();
@@ -95,6 +93,9 @@ public class ContestService implements IContestService {
         List<Question> qList = questions.stream().collect(Collectors.toList());
         int size = qList.size();
         Random random = new Random();
+        if(size <= 2){
+            return questions;
+        }
         int delta = random.nextInt(size - 2) + 1;
         final List<Question> newList = new ArrayList<Question>();
         for(int i=0; i < delta; i++ ){

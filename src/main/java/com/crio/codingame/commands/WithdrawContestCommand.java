@@ -13,13 +13,15 @@ public class WithdrawContestCommand implements ICommand{
         this.userService = userService;
     }
 
+    // TODO: CRIO_TASK_MODULE_CONTROLLER
+    // Execute withdrawContest method of IUserService and print the result.
+    // Also Handle Exceptions and print the error messsages if any.
+    // Look for the unit tests to see the expected output.
+    // Sample Input Token List:- ["WITHDRAW_CONTEST","3","Joey"]
+    // Hint - Use Parameterized Exceptions in the Service class to match with the Unit Tests Output.
+
     @Override
     public void execute(List<String> tokens) {
-        String contestId = tokens.get(1);
-        String userName = tokens.get(2);
-        UserRegistrationDto userRegistrationDto = userService.withdrawContest(contestId, userName);
-        System.out.println(userRegistrationDto);
-        
     }
     
 }

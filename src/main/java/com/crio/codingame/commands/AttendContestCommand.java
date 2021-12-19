@@ -3,8 +3,6 @@ package com.crio.codingame.commands;
 import java.util.List;
 
 import com.crio.codingame.dtos.UserRegistrationDto;
-import com.crio.codingame.exceptions.ContestNotFoundException;
-import com.crio.codingame.exceptions.UserNotFoundException;
 import com.crio.codingame.services.IUserService;
 
 public class AttendContestCommand implements ICommand{
@@ -15,19 +13,15 @@ public class AttendContestCommand implements ICommand{
         this.userService = userService;
     }
 
+    // TODO: CRIO_TASK_MODULE_CONTROLLER
+    // Execute attendContest method of IUserService and print the result.
+    // Also Handle Exceptions and print the error messsages if any.
+    // Look for the unit tests to see the expected output.
+    // Sample Input Token List:- ["ATTEND_CONTEST","3","Joey"]
+    // Hint - Use Parameterized Exceptions in the Service class to match with the Unit Tests Output.
+
     @Override
     public void execute(List<String> tokens) {
-        String contestId = tokens.get(1);
-        String userName = tokens.get(2);
-        UserRegistrationDto userRegistrationDto = null;
-        try{
-        userRegistrationDto = userService.attendContest(contestId, userName);
-        }catch(ContestNotFoundException e){
-            System.out.println("Contest for given ID:" + contestId + " Not Found");
-        }catch(UserNotFoundException e){
-            System.out.println("User for given Name:" + userName + " Not Found");
-        }
-        System.out.println(userRegistrationDto);    
     }
     
 }
