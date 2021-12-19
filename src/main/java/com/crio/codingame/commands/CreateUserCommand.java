@@ -13,11 +13,9 @@ public class CreateUserCommand implements ICommand{
         this.userService = userService;
     }
 
+
     @Override
     public void execute(List<String> tokens) {
-        String userName = tokens.get(1);
-        User user = userService.create(userName);
-        System.out.println(user);
     }
     
 }

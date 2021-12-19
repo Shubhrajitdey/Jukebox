@@ -14,14 +14,9 @@ public class LeaderBoardCommand implements ICommand{
         this.userService = userService;
     }
 
+
     @Override
     public void execute(List<String> tokens) {
-        String order = tokens.get(1);
-        List<User> uList = userService.getAllUserScoreOrderWise(ScoreOrder.valueOf(order));
-        uList.forEach(u->{
-            System.out.println("[Name:" + u.getName() + " Score:" +u.getScore()+"]");
-        });
-        
     }
     
 }

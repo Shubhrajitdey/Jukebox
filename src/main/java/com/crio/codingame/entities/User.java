@@ -62,6 +62,10 @@ public class User extends BaseEntity {
         userContestQuestions.addContestQuestion(contest, qList);
     }
 
+    public List<Question> getQuestionsByContest(Contest contest){
+        return userContestQuestions.getQuestionsByContest(contest);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.crio.codingame.entities.Level;
 import com.crio.codingame.entities.Question;
-import com.crio.codingame.repositories.QuestionRepository;
+import com.crio.codingame.repositories.IQuestionRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ public class QuestionServiceTest {
     //  Any modifications in this file may result in Assessment failure!
     
     @Mock
-    private QuestionRepository qRepositoryMock;
+    private IQuestionRepository qRepositoryMock;
 
     @InjectMocks
     private QuestionService questionService;
