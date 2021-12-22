@@ -1,6 +1,4 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'application'
 }
@@ -8,8 +6,11 @@ plugins {
 ext {
 	buildId = System.currentTimeMillis()
 	codinGameMainClass = "com.crio.codingame.App"
+	jukeBoxMainClass = "com.crio.jukebox.App"
 }
 
+// Replace the mainClass variable with jukeBoxMainClass to only run the JukeBox Application.
+// Revert back to codinGameMainClass to only run the CodingGame Application.
 application {
     mainClass = codinGameMainClass
 }
