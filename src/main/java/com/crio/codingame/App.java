@@ -13,6 +13,7 @@ import com.crio.codingame.commands.CommandInvoker;
 import com.crio.codingame.exceptions.NoSuchCommandException;
 
 public class App {
+    // To run the application  ./gradlew run --args="INPUT_FILE=input.txt"
     public static void main(String[] args) {
         List<String> commandLineArgs = new LinkedList<>(Arrays.asList(args));
         String expectedSequence = "INPUT_FILE";
