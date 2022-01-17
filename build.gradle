@@ -1,6 +1,4 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'application'
 }
@@ -10,9 +8,14 @@ ext {
 	codinGameMainClass = "com.crio.codingame.App"
 }
 
+// CRIO_SOLUTION_AND_STUB_START_MODULE_TAKEHOME
+// Replace the mainClass variable with jukeBoxMainClass to only run the JukeBox Application.
+// Revert back to codinGameMainClass to only run the CodingGame Application.
+// CRIO_SOLUTION_AND_STUB_START_MODULE_TAKEHOME
 application {
     mainClass = codinGameMainClass
 }
+
 
 group = 'com.crio'
 version = '0.0.1-SNAPSHOT'
