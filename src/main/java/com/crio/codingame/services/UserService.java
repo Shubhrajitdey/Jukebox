@@ -37,14 +37,23 @@ public class UserService implements IUserService {
     // Get All Users in Descending Order w.r.t scores if ScoreOrder DESC.
 
     @Override
-    public List<User> getAllUserScoreOrderWise(ScoreOrder scoreOrder) throws InvalidOperationException {
+    public List<User> getAllUserScoreOrderWise(ScoreOrder scoreOrder){
      return Collections.emptyList();
     }
 
     @Override
-    public UserRegistrationDto attendContest(String contestId, String userName) throws ContestNotFoundException, UserNotFoundException {
-        Contest contest = contestRepository.findById(contestId).orElseThrow(ContestNotFoundException::new);
-        User user = userRepository.findByName(userName).orElseThrow(UserNotFoundException::new);
+    public UserRegistrationDto attendContest(String contestId, String userName) throws ContestNotFoundException, UserNotFoundException, InvalidOperationException {
+        Contest contest = contestRepository.findById(contestId).orElseThrow(() -> new ContestNotFoundException("Cannot Attend Contest. Contest for given id:"+contestId+" not found!"));
+        User user = userRepository.findByName(userName).orElseThrow(() -> new UserNotFoundException("Cannot Attend Contest. User for given name:"+ userName+" not found!"));
+        if(contest.getContestStatus().equals(ContestStatus.IN_PROGRESS)){
+            throw new InvalidOperationException("Cannot Attend Contest. Contest for given id:"+contestId+" is in progress!");
+        }
+        if(contest.getContestStatus().equals(ContestStatus.ENDED)){
+            throw new InvalidOperationException("Cannot Attend Contest. Contest for given id:"+contestId+" is ended!");
+        }
+        if(user.checkIfContestExists(contest)){
+            throw new InvalidOperationException("Cannot Attend Contest. Contest for given id:"+contestId+" is already registered!");
+        }
         user.addContest(contest);
         userRepository.save(user);
         return new UserRegistrationDto(contest.getName(), user.getName(),RegisterationStatus.REGISTERED);

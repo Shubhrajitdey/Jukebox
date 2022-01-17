@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,12 +18,12 @@ import com.crio.codingame.entities.Level;
 import com.crio.codingame.entities.Question;
 import com.crio.codingame.entities.User;
 import com.crio.codingame.exceptions.ContestNotFoundException;
-import com.crio.codingame.exceptions.InvalidOperationException;
+import com.crio.codingame.exceptions.InvalidContestException;
 import com.crio.codingame.exceptions.QuestionNotFoundException;
 import com.crio.codingame.exceptions.UserNotFoundException;
-import com.crio.codingame.repositories.ContestRepository;
-import com.crio.codingame.repositories.QuestionRepository;
-import com.crio.codingame.repositories.UserRepository;
+import com.crio.codingame.repositories.IContestRepository;
+import com.crio.codingame.repositories.IQuestionRepository;
+import com.crio.codingame.repositories.IUserRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -44,16 +43,16 @@ public class ContestServiceTest {
     //  Any modifications in this file may result in Assessment failure!
 
     @Mock
-    private UserRepository userRepositoryMock;
+    private IUserRepository userRepositoryMock;
 
     @Mock
-    private ContestRepository contestRepositoryMock;
+    private IContestRepository contestRepositoryMock;
 
     @Mock
-    private QuestionRepository questionRepositoryMock;
+    private IQuestionRepository questionRepositoryMock;
 
     @Mock
-    private UserService userServiceMock;
+    private IUserService userServiceMock;
 
     @InjectMocks
     private ContestService contestService;
@@ -296,7 +295,7 @@ public class ContestServiceTest {
 
 
     @Test
-    @DisplayName("runContest method Should Throw InvalidOperationException If Contest is in Progress")
+    @DisplayName("runContest method Should Throw InvalidContestException If Contest is in Progress")
     public void runContest_ShouldThrowInvalidOperationException_GivenContestInProgress(){
         //Arrange
         List<Question> questionList = new ArrayList<Question>(){
@@ -310,12 +309,12 @@ public class ContestServiceTest {
         Contest contest = new Contest("1","contestName",questionList,Level.LOW, contestCreator,ContestStatus.IN_PROGRESS);
         when(contestRepositoryMock.findById(anyString())).thenReturn(Optional.of(contest));
         // Act and Assert
-        Assertions.assertThrows(InvalidOperationException.class,()-> contestService.runContest("1","contestCreator1"));
+        Assertions.assertThrows(InvalidContestException.class,()-> contestService.runContest("1","contestCreator1"));
         verify(contestRepositoryMock,times(1)).findById(anyString());
     }
 
     @Test
-    @DisplayName("runContest method Should Throw InvalidOperationException If Contest has ended")
+    @DisplayName("runContest method Should Throw InvalidContestException If Contest has ended")
     public void runContest_ShouldThrowInvalidOperationException_GivenContestEnded(){
         //Arrange
         List<Question> questionList = new ArrayList<Question>(){
@@ -329,12 +328,12 @@ public class ContestServiceTest {
         Contest contest = new Contest("1","contestName",questionList,Level.LOW, contestCreator,ContestStatus.ENDED);
         when(contestRepositoryMock.findById(anyString())).thenReturn(Optional.of(contest));
         // Act and Assert
-        Assertions.assertThrows(InvalidOperationException.class,()-> contestService.runContest("1","contestCreator1"));
+        Assertions.assertThrows(InvalidContestException.class,()-> contestService.runContest("1","contestCreator1"));
         verify(contestRepositoryMock,times(1)).findById(anyString());
     }
 
     @Test
-    @DisplayName("runContest method Should Throw InvalidOperationException If Not ran by Contest Creator")
+    @DisplayName("runContest method Should Throw InvalidContestException If Not ran by Contest Creator")
     public void runContest_ShouldThrowInvalidOperationException_GivenWrongContestCreator(){
         //Arrange
         List<Question> questionList = new ArrayList<Question>(){
@@ -348,7 +347,7 @@ public class ContestServiceTest {
         Contest contest = new Contest("1","contestName",questionList,Level.LOW, contestCreator,ContestStatus.NOT_STARTED);
         when(contestRepositoryMock.findById(anyString())).thenReturn(Optional.of(contest));
         // Act and Assert
-        Assertions.assertThrows(InvalidOperationException.class,()-> contestService.runContest("1","contestCreator2"));
+        Assertions.assertThrows(InvalidContestException.class,()-> contestService.runContest("1","contestCreator2"));
         verify(contestRepositoryMock,times(1)).findById(anyString());
     }
 
