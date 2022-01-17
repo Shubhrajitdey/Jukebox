@@ -1,4 +1,3 @@
-
 package com.crio.jukebox;
 
 import java.io.ByteArrayOutputStream;
@@ -30,9 +29,7 @@ public class AppTest {
         //Arrange
         List<String> arguments= new ArrayList<>(List.of("INPUT_FILE=jukebox-input.txt"));
 
-		String expectedOutput = "Songs Loaded successfully\n"+
-        "1 Kiran\n"+
-        "Playlist ID - 1\n"+
+		String expectedOutput = "Playlist ID - 1\n"+
         "Playlist ID - 2\n"+
         "Delete Successful\n"+
         "Current Song Playing\n"+
@@ -62,9 +59,9 @@ public class AppTest {
         "Album - Random Access Memories\n"+
         "Artists - Daft Punk,Nile Rodgers\n"+
         "Current Song Playing\n"+
-        "Song - Cross Me\n"+
+        "Song - Way To Break My Heart\n"+
         "Album - No.6 Collaborations Project\n"+
-        "Artists - Ed Sheeran,Chance The Rapper,PnB Rock\n"+
+        "Artists - Ed Sheeran,Skrillex\n"+
         "Given song id is not a part of the active playlist";
         //Act
         App.run(arguments);
