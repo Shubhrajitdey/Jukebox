@@ -24,7 +24,6 @@ public class App {
 
     public static void run(List<String> commandLineArgs) {
     // Complete the final logic to run the complete program.
-    }
-    
 
+    }
 }

@@ -15,7 +15,6 @@ application {
     mainClass = codinGameMainClass
 }
 
-
 group = 'com.crio'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
