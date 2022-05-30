@@ -21,6 +21,11 @@ public class CreateQuestionCommand implements ICommand{
 
     @Override
     public void execute(List<String> tokens) {
+        String title = tokens.get(1);
+        String level = tokens.get(2);
+        Integer score = Integer.parseInt(tokens.get(3));
+        Question question = questionService.create(title, Level.valueOf(level),score);
+        System.out.println(question);
     }
     
 }
