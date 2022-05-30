@@ -13,12 +13,11 @@ public class QuestionService implements IQuestionService{
         this.questionRepository = questionRepository;
     }
 
-    // TODO: CRIO_TASK_MODULE_SERVICES
-    // Create and store Question into the repository.
 
     @Override
     public Question create(String title, Level level, Integer difficultyScore) {
-     return null;
+     final Question question = new Question(title,level, difficultyScore);
+        return questionRepository.save(question);
     }
 
     // TODO: CRIO_TASK_MODULE_SERVICES

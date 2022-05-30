@@ -92,12 +92,17 @@ public class ContestService implements IContestService {
         Contest endedContest = contestRepository.save(contest);
        return new ContestSummaryDto(endedContest,userResultList);
     }
-
-    // TODO: CRIO_TASK_MODULE_SERVICES
-    // Throw InvalidContestException for invalid cases.
-    // Hint :- Refer Unit Testcases for runContest method
     
     private void validateContest(final Contest contest, final String contestCreator) throws InvalidContestException {
+        if(contest.getContestStatus().equals(ContestStatus.IN_PROGRESS)){
+            throw new InvalidContestException("Cannot Run Contest. Contest for given id:"+contest.getId()+" is in progress!");
+        }
+        if(contest.getContestStatus().equals(ContestStatus.ENDED)){
+            throw new InvalidContestException("Cannot Run Contest. Contest for given id:"+contest.getId()+ " is ended!");
+        }
+        if(!contest.getCreator().getName().equals(contestCreator)){
+            throw new InvalidContestException("Cannot Run Contest. User:"+contestCreator+ " is not the contest creator of contest id:"+contest.getId());
+        }
     }
 
     //Reference:- https://www.geeksforgeeks.org/randomly-select-items-from-a-list-in-java/
