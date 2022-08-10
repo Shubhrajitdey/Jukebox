@@ -40,6 +40,30 @@ public class ContestTest {
    }
 
 
+    @Test
+    @DisplayName("endContest method Should End Contest")
+    public void endContest_ShouldEndContest(){
+        //Arrange
+        String id = "1";
+        String name = "Crio.Do PhonePe TechScholars Assessment #1";
+        List<Question> questions =  new ArrayList<Question>(){
+            {
+            add(new Question("1", "Question1",Level.LOW,10));
+            add(new Question("1", "Question2",Level.LOW,20));
+            add(new Question("1", "Question3",Level.LOW,30));
+            }
+        };
+        Level level = Level.LOW;
+        User creator = new User("1","Yakshit",0);
+        ContestStatus contestStatus = ContestStatus.IN_PROGRESS;
+        Contest contest = new Contest(id, name, questions, level, creator, contestStatus);
+
+        //Act
+        contest.endContest();
+
+        //Act and Assert
+        Assertions.assertEquals(contest.getContestStatus(),ContestStatus.ENDED);
+    }
 
 
 }

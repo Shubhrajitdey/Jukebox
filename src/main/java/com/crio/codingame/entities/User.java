@@ -9,6 +9,23 @@ public class User extends BaseEntity {
     private final String name;
     private final Integer score;
     private List <Contest> contests;
+    private UserContestQuestions userContestQuestions;
+
+    public User(User user){
+        this(user.id,user.name,user.score,user.contests);
+        userContestQuestions = user.userContestQuestions;
+    }
+
+    public User(String id, String name, Integer score, List<Contest> contests) {
+        this(id,name,score);
+        this.contests = contests;
+    }
+
+    public User(String id, String name, Integer score) {
+        this(name,score);
+        this.id = id;
+        this.userContestQuestions = new UserContestQuestions();
+    }
 
     public User(String name, Integer score) {
         this.name = name;
@@ -34,6 +51,21 @@ public class User extends BaseEntity {
 
     public List<Contest> getContests() {
         return contests.stream().collect(Collectors.toList());
+    }
+
+    // TODO: CRIO_TASK_MODULE_SERVICES
+    // Check if Contest is present in the User or Not
+
+    public boolean checkIfContestExists(Contest contest){
+        return contests.contains(contest);
+    }
+
+    public void addContestQuestion(Contest contest, List<Question> qList){
+        userContestQuestions.addContestQuestion(contest, qList);
+    }
+
+    public List<Question> getQuestionsByContest(Contest contest){
+        return userContestQuestions.getQuestionsByContest(contest);
     }
 
     @Override
