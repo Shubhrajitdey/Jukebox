@@ -1,6 +1,5 @@
 package com.crio.codingame.services;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.crio.codingame.entities.Level;

@@ -1,11 +1,9 @@
 package com.crio.codingame.repositories;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.crio.codingame.entities.User;

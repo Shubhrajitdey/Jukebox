@@ -27,7 +27,7 @@ public class Contest extends BaseEntity{
     public Contest(String name, List<Question> questions, Level level, User creator,
             ContestStatus contestStatus) {
         this.name = name;
-        this.questions = new ArrayList<>();
+        this.questions = questions;
         validateQuestionList(questions, level);
         this.level = level;
         this.creator = creator;
@@ -47,8 +47,9 @@ public class Contest extends BaseEntity{
             }
         }
     }
-
-
+    public void endContest(){
+        this.contestStatus = ContestStatus.ENDED;
+    }
     
     public String getName() {
         return name;
@@ -99,10 +100,6 @@ public class Contest extends BaseEntity{
     @Override
     public String toString() {
         return "Contest [id=" + id + ", name=" + name + ", level=" + level + ", creator=" + creator.getName() + ", contestStatus=" + contestStatus + ", questions=" + questions + "]";
-    }
-
-    public void endContest() {
-        this.contestStatus = ContestStatus.ENDED;
     }
 
 }
