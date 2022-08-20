@@ -5,7 +5,8 @@ import java.util.List;
 public class UserPlayList extends BaseEntity{
     private final User user;
     private final List<PlayList> playLists;
-    public UserPlayList(User user, List<PlayList> playLists) {
+    public UserPlayList(String id,User user, List<PlayList> playLists) {
+        this.id=id;
         this.user = user;
         this.playLists = playLists;
     }

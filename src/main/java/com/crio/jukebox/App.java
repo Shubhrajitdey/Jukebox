@@ -1,9 +1,6 @@
 package com.crio.jukebox;
 
-import com.crio.jukebox.repositories.AlbumRepository;
-import com.crio.jukebox.repositories.IAlbumRepository;
-import com.crio.jukebox.repositories.ISongRepository;
-import com.crio.jukebox.repositories.SongRepository;
+import com.crio.jukebox.repositories.*;
 import com.crio.jukebox.services.ISongService;
 import com.crio.jukebox.services.SongService;
 
@@ -29,11 +26,12 @@ public class App {
         }
 
         // To Be Delted
-        ISongRepository iSongRepository=new SongRepository();
-        IAlbumRepository iAlbumRepository=new AlbumRepository();
-        ISongService iSongService=new SongService(iSongRepository,iAlbumRepository);
-        iSongService.loadSong("songs.txt");
-        System.out.println(iSongRepository.findAll());
+//        ISongRepository iSongRepository=new SongRepository();
+//        IAlbumRepository iAlbumRepository=new AlbumRepository();
+//        ISongService iSongService=new SongService(iSongRepository,iAlbumRepository);
+//        iSongService.loadSong("songs.txt");
+//        System.out.println(iSongRepository.findAll());
+
 	}
 
     public static void run(List<String> commandLineArgs) {
