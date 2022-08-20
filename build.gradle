@@ -6,16 +6,14 @@ plugins {
 ext {
 	buildId = System.currentTimeMillis()
 	codinGameMainClass = "com.crio.codingame.App"
+	jukeBoxMainClass = "com.crio.jukebox.App"
 }
 
-// CRIO_SOLUTION_AND_STUB_START_MODULE_TAKEHOME
 // Replace the mainClass variable with jukeBoxMainClass to only run the JukeBox Application.
 // Revert back to codinGameMainClass to only run the CodingGame Application.
-// CRIO_SOLUTION_AND_STUB_START_MODULE_TAKEHOME
 application {
     mainClass = codinGameMainClass
 }
-
 
 group = 'com.crio'
 version = '0.0.1-SNAPSHOT'
