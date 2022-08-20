@@ -7,7 +7,6 @@ import com.crio.jukebox.dtos.UserPlayedSongDto;
 import com.crio.jukebox.exceptions.PlayListNotFoundException;
 import com.crio.jukebox.exceptions.SongNotFoundException;
 import com.crio.jukebox.exceptions.UserNotFoundException;
-import com.crio.jukebox.repositories.IPlayListRepository;
 import com.crio.jukebox.repositories.ISongRepository;
 
 import java.util.*;
@@ -16,16 +15,13 @@ public class UserPlayListService implements IUserPlayListService{
     IUserRepository iUserRepository;
     ISongRepository iSongRepository;
 
-    IPlayListRepository iPlayListRepository;
-
     IUserPlayListRepository userPlayListRepository;
 
     LinkedList<Song> currSongPlaylistQueue;
 
-    public UserPlayListService(IUserRepository iUserRepository, ISongRepository iSongRepository, IPlayListRepository iPlayListRepository, IUserPlayListRepository userPlayListRepository, LinkedList<Song> currSongPlaylistQueue) {
+    public UserPlayListService(IUserRepository iUserRepository, ISongRepository iSongRepository, IUserPlayListRepository userPlayListRepository, LinkedList<Song> currSongPlaylistQueue) {
         this.iUserRepository = iUserRepository;
         this.iSongRepository = iSongRepository;
-        this.iPlayListRepository = iPlayListRepository;
         this.userPlayListRepository = userPlayListRepository;
         this.currSongPlaylistQueue = currSongPlaylistQueue;
     }
@@ -51,7 +47,7 @@ public class UserPlayListService implements IUserPlayListService{
             else throw new SongNotFoundException("Songs Not Found");
         }
         PlayList playList=new PlayList(null,PlayListName,listOfAllSongs);
-        PlayList savedPlayList=iPlayListRepository.save(playList);
+        PlayList savedPlayList=userPlayListRepository.createPlayList(playList);
         List<PlayList> listOfPlayList=userPlayListRepository.findAllPlayListByUserId(currUser.getId());
         if(listOfPlayList!=null || listOfPlayList.size()>0){
             listOfPlayList.add(savedPlayList);
@@ -67,6 +63,11 @@ public class UserPlayListService implements IUserPlayListService{
 
     @Override
     public void deletePlayList(String userId, String PlayListId) throws UserNotFoundException, PlayListNotFoundException {
+        if(userPlayListRepository.isPlayListExistByPlayListId(userId,PlayListId)){
+            userPlayListRepository.delelePlayListByUserIdAndPlayListId(userId,PlayListId);
+        }else{
+            throw new PlayListNotFoundException("PlayList is Not Found");
+        }
 
     }
 
