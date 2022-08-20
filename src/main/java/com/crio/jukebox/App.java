@@ -52,9 +52,11 @@ public class App {
         System.out.println("--------------------------------------------");
         System.out.println(iUserPlayListService.setCurrentPlayList("1","1"));
         System.out.println("--------------------------------------------");
-        System.out.println("NEXT 1 -"+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.NEXT));
+        System.out.println("Next 1 -"+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.NEXT));
         System.out.println("--------------------------------------------");
-        System.out.println("NEXT 2- "+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.NEXT));
+        System.out.println("Back 2- "+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.BACK));
+        System.out.println("--------------------------------------------");
+        System.out.println("Back 3- "+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.BACK));
         System.out.println("--------------------------------------------");
         //System.out.println(iUserPlayListService.playSongByOrder("1", SongPlayingOrder.BACK));
 

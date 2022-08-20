@@ -43,7 +43,7 @@ public class UserPlayListService implements IUserPlayListService{
                 UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
                 return userPlayedSongDto;
             }else{
-                songIterator=currSongPlaylistQueue.listIterator(0);
+                songIterator=currSongPlaylistQueue.listIterator();
                 Song currentPlayingSong=songIterator.next();
                 UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
                 return userPlayedSongDto;
@@ -54,7 +54,7 @@ public class UserPlayListService implements IUserPlayListService{
                 UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
                 return userPlayedSongDto;
             }else{
-                songIterator=currSongPlaylistQueue.listIterator(currSongPlaylistQueue.size()-1);
+                songIterator=currSongPlaylistQueue.listIterator();
                 Song currentPlayingSong=songIterator.previous();
                 UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
                 return userPlayedSongDto;
@@ -139,9 +139,10 @@ public class UserPlayListService implements IUserPlayListService{
         for(Song song:currentPlayList.getSongs()){
             currSongPlaylistQueue.add(song);
         }
-        songIterator=currSongPlaylistQueue.listIterator(0);
+        songIterator=currSongPlaylistQueue.listIterator();
         Song currSong=currSongPlaylistQueue.getFirst();
         UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currSong.getName(),currSong.getAlbumName(),currSong.getArtis().toString());
+        songIterator.next();
         return userPlayedSongDto;
     }
 }
