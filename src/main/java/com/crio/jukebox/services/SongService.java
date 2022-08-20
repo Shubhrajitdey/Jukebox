@@ -37,7 +37,7 @@ public class SongService implements ISongService{
                 String albumOwner=splitByComma.get(4);
                 List<String> listOfAlbumArtist=Arrays.asList(splitByComma.get(5).split("#"));
                 song=new Song(songId,songName,genre,listOfAlbumArtist);
-                // read next line
+                song.setAlbumName(albumName);
                 Song savedSong=iSongRepository.save(song);
                 album=iAlbumRepository.findAlbumByAlbumName(albumName);
                 if(album==null){
@@ -46,6 +46,7 @@ public class SongService implements ISongService{
                     album.getSongList().add(savedSong);
                 }
                 Album savedAlbum=iAlbumRepository.save(album);
+                // read next line
                 line = reader.readLine();
 
             }

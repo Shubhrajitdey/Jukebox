@@ -1,12 +1,13 @@
 package com.crio.jukebox;
 
+import com.crio.jukebox.entites.SongPlayingOrder;
 import com.crio.jukebox.repositories.*;
-import com.crio.jukebox.services.ISongService;
-import com.crio.jukebox.services.SongService;
+import com.crio.jukebox.services.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,11 +27,36 @@ public class App {
         }
 
         // To Be Delted
-//        ISongRepository iSongRepository=new SongRepository();
-//        IAlbumRepository iAlbumRepository=new AlbumRepository();
-//        ISongService iSongService=new SongService(iSongRepository,iAlbumRepository);
-//        iSongService.loadSong("songs.txt");
-//        System.out.println(iSongRepository.findAll());
+        ISongRepository iSongRepository=new SongRepository();
+        IAlbumRepository iAlbumRepository=new AlbumRepository();
+        ISongService iSongService=new SongService(iSongRepository,iAlbumRepository);
+        iSongService.loadSong("songs.txt");
+//      Testing Adding Songs
+
+        IUserPlayListRepository userPlayListRepository=new UserPlayListRepository();
+        IUserRepository iUserRepository=new UserRepository(userPlayListRepository);
+        IuserService iuserService=new UserService(iUserRepository);
+        IUserPlayListService iUserPlayListService=new UserPlayListService(iUserRepository,iSongRepository,userPlayListRepository);
+
+        iuserService.create("Sanket");
+        System.out.println(iUserRepository.findAll());
+        iUserPlayListService.createPlayList("1","My Pop Songs",Arrays.asList("1"));
+//        System.out.println("--------------------------------------------");
+//        System.out.println(userPlayListRepository.findAll());
+        iUserPlayListService.addSongToPlayList("1","1",Arrays.asList("1","7","8"));
+//        System.out.println("--------------------------------------------");
+//        System.out.println(userPlayListRepository.findAll());
+//        iUserPlayListService.deleteSongFromPlayList("1","1",Arrays.asList("1"));
+        System.out.println("--------------------------------------------");
+        System.out.println(userPlayListRepository.findAll());
+        System.out.println("--------------------------------------------");
+        System.out.println(iUserPlayListService.setCurrentPlayList("1","1"));
+        System.out.println("--------------------------------------------");
+        System.out.println("NEXT 1 -"+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.NEXT));
+        System.out.println("--------------------------------------------");
+        System.out.println("NEXT 2- "+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.NEXT));
+        System.out.println("--------------------------------------------");
+        //System.out.println(iUserPlayListService.playSongByOrder("1", SongPlayingOrder.BACK));
 
 	}
 

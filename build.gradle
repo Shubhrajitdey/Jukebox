@@ -12,7 +12,7 @@ ext {
 // Replace the mainClass variable with jukeBoxMainClass to only run the JukeBox Application.
 // Revert back to codinGameMainClass to only run the CodingGame Application.
 application {
-    mainClass = codinGameMainClass
+    mainClass = jukeBoxMainClass
 }
 
 group = 'com.crio'

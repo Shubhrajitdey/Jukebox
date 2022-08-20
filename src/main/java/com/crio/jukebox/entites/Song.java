@@ -7,6 +7,8 @@ public class Song extends BaseEntity{
     private final String name;
 
     private final String genre;
+
+    private String albumName;
     private final List<String> artis;
     public Song(String id, String name, String genre, List<String> artis) {
         this.name = name;
@@ -52,6 +54,13 @@ public class Song extends BaseEntity{
         } else if (!name.equals(other.name))
             return false;
         return true;
+    }
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
     }
     @Override
     public String toString() {

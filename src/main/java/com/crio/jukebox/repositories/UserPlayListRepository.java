@@ -1,9 +1,11 @@
 package com.crio.jukebox.repositories;
 
 import com.crio.jukebox.entites.PlayList;
+import com.crio.jukebox.entites.Song;
 import com.crio.jukebox.entites.UserPlayList;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserPlayListRepository implements IUserPlayListRepository{
     private final Map<String,UserPlayList> userPlayListMap=new HashMap<String,UserPlayList>();
@@ -26,7 +28,7 @@ public class UserPlayListRepository implements IUserPlayListRepository{
 
     @Override
     public List<UserPlayList> findAll() {
-        return null;
+        return new ArrayList<>(userPlayListMap.values());
     }
 
     @Override
@@ -84,7 +86,52 @@ public class UserPlayListRepository implements IUserPlayListRepository{
     @Override
     public boolean isPlayListExistByPlayListId(String userId,String playListId) {
         List<PlayList> listOfPlayList=userPlayListMap.get(userId).getPlayLists();
-        if(listOfPlayList==null || !listOfPlayList.isEmpty())return false;
+        if(listOfPlayList==null || listOfPlayList.isEmpty())return false;
         return listOfPlayList.stream().filter(p -> p.getId().equals(playListId)).count()>0;
+    }
+
+    @Override
+    public PlayList addListOfSongsToUserPlayList(String userId, String playListId, List<Song> songs) {
+        if(userPlayListMap.containsKey(userId)){
+            List<PlayList> listOfPlayList=userPlayListMap.get(userId).getPlayLists();
+            if(listOfPlayList==null || listOfPlayList.isEmpty()) return null;
+            PlayList currPlayList=listOfPlayList.stream().filter(lp->lp.getId().equals(playListId)).findFirst().get();
+            if(currPlayList!=null){
+                List<Song> currentSongs=currPlayList.getSongs();
+                Set<String> currentSongList=new HashSet<String>();
+                for(Song song:currentSongs)
+                    currentSongList.add(song.getId());
+                for(Song song:songs){
+                    if(!currentSongList.contains(song.getId()))
+                        currentSongs.add(song);
+                }
+            }
+            listOfPlayList.set(listOfPlayList.indexOf(currPlayList),currPlayList);
+            return currPlayList;
+        }
+        return null;
+    }
+
+    @Override
+    public PlayList removeListOfSongsFromUserPlayList(String userId, String playListId, List<Song> songs) {
+        if(userPlayListMap.containsKey(userId)){
+            List<PlayList> listOfPlayList=userPlayListMap.get(userId).getPlayLists();
+            if(listOfPlayList==null || listOfPlayList.isEmpty()) return null;
+            PlayList currPlayList=listOfPlayList.stream().filter(lp->lp.getId().equals(playListId)).findFirst().get();
+            if(currPlayList!=null){
+                List<Song> currentSongs=currPlayList.getSongs();
+                Set<String> currentSongList=new HashSet<String>();
+                for(Song song:currentSongs)
+                    currentSongList.add(song.getId());
+                for(Song song:songs){
+                    if(currentSongList.contains(song.getId()))
+                        currentSongs.remove(song);
+                    else return  null;
+                }
+            }
+            listOfPlayList.set(listOfPlayList.indexOf(currPlayList),currPlayList);
+            return currPlayList;
+        }
+        return null;
     }
 }

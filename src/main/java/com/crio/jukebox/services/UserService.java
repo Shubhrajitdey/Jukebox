@@ -1,13 +1,12 @@
 package com.crio.jukebox.services;
 
 import com.crio.jukebox.repositories.IUserRepository;
-import com.crio.jukebox.repositories.UserRepository;
 import com.crio.jukebox.entites.PlayList;
 import com.crio.jukebox.entites.User;
 
 import java.util.List;
 
-public class UserService implements IUserService{
+public class UserService implements IuserService {
 
     IUserRepository iUserRepository;
 

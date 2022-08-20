@@ -5,10 +5,13 @@ import java.util.List;
 public class PlayList extends BaseEntity{
     private final String name;
     private final List<Song> songs;
+
+    private SongPlayingStatus songPlayingStatus;
     public PlayList(String id,String name, List<Song> songs) {
         this.name = name;
         this.songs = songs;
         this.id = id;
+        this.songPlayingStatus=SongPlayingStatus.NOT_PLAYING;
     }
     
     public String getName() {
@@ -47,6 +50,13 @@ public class PlayList extends BaseEntity{
         } else if (!songs.equals(other.songs))
             return false;
         return true;
+    }
+    public SongPlayingStatus getSongPlayingStatus(SongPlayingStatus playing) {
+        return songPlayingStatus;
+    }
+
+    public void setSongPlayingStatus(SongPlayingStatus songPlayingStatus) {
+        this.songPlayingStatus = songPlayingStatus;
     }
     @Override
     public String toString() {

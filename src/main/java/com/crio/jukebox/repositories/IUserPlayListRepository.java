@@ -1,6 +1,7 @@
 package com.crio.jukebox.repositories;
 
 import com.crio.jukebox.entites.PlayList;
+import com.crio.jukebox.entites.Song;
 import com.crio.jukebox.entites.UserPlayList;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public interface IUserPlayListRepository extends CRUDRepository<UserPlayList,Str
 
     public boolean isPlayListExistByPlayListId(String userId,String playListId);
 
+    public PlayList addListOfSongsToUserPlayList(String userId, String playListId, List<Song> songs);
+
+    public PlayList removeListOfSongsFromUserPlayList(String userId, String playListId, List<Song> songs);
 }
