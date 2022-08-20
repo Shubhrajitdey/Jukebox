@@ -1,5 +1,12 @@
 package com.crio.jukebox;
 
+import com.crio.jukebox.repositories.AlbumRepository;
+import com.crio.jukebox.repositories.IAlbumRepository;
+import com.crio.jukebox.repositories.ISongRepository;
+import com.crio.jukebox.repositories.SongRepository;
+import com.crio.jukebox.services.ISongService;
+import com.crio.jukebox.services.SongService;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,6 +27,13 @@ public class App {
         if(expectedSequence.equals(actualSequence)){
             run(commandLineArgs);
         }
+
+        // To Be Delted
+        ISongRepository iSongRepository=new SongRepository();
+        IAlbumRepository iAlbumRepository=new AlbumRepository();
+        ISongService iSongService=new SongService(iSongRepository,iAlbumRepository);
+        iSongService.loadSong("songs.txt");
+        System.out.println(iSongRepository.findAll());
 	}
 
     public static void run(List<String> commandLineArgs) {

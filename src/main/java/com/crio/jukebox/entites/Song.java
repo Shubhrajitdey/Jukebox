@@ -2,18 +2,26 @@ package com.crio.jukebox.entites;
 
 import java.util.List;
 
+
 public class Song extends BaseEntity{
     private final String name;
-    private final List<Artist> artis;
-    public Song(String id,String name, List<Artist> artis) {
+
+    private final String genre;
+    private final List<String> artis;
+    public Song(String id, String name, String genre, List<String> artis) {
         this.name = name;
+        this.genre = genre;
         this.artis = artis;
         this.id = id;
     }
     public String getName() {
         return name;
     }
-    public List<Artist> getArtis() {
+
+    public String getGenre() {
+        return genre;
+    }
+    public List<String> getArtis() {
         return artis;
     }
     @Override

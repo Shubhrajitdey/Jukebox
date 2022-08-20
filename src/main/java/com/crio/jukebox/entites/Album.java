@@ -1,26 +1,18 @@
 package com.crio.jukebox.entites;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 public class Album extends BaseEntity{
     private final String name;
     private final List<Song> songList;
-    private final ArtistGroup ownerArtistGroup;
-    private final List<Artist> ownerArtists;
-    public Album(String id,String name, List<Song> songList, List<Artist> ownerArtists) {
+    private final String ownerName;
+
+    public Album(String id, String name, List<Song> songList, String ownerName) {
         this.id = id;
         this.name = name;
         this.songList = songList;
-        this.ownerArtists = ownerArtists;
-        this.ownerArtistGroup = new ArtistGroup();
-    }
-    public Album(String id,String name, List<Song> songList, ArtistGroup ownerArtistGroup) {
-        this.id = id;
-        this.name = name;
-        this.songList = songList;
-        this.ownerArtistGroup = ownerArtistGroup;
-        this.ownerArtists = new ArrayList<Artist>();
+        this.ownerName = ownerName;
     }
     public String getName() {
         return name;
@@ -28,19 +20,16 @@ public class Album extends BaseEntity{
     public List<Song> getSongList() {
         return songList;
     }
-    public ArtistGroup getOwnerArtistGroup() {
-        return ownerArtistGroup;
+    public String getOwnerName() {
+        return ownerName;
     }
-    public List<Artist> getOwnerArtists() {
-        return ownerArtists;
-    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((ownerArtistGroup == null) ? 0 : ownerArtistGroup.hashCode());
-        result = prime * result + ((ownerArtists == null) ? 0 : ownerArtists.hashCode());
+        result = prime * result + ((ownerName == null) ? 0 : ownerName.hashCode());
         result = prime * result + ((songList == null) ? 0 : songList.hashCode());
         return result;
     }
@@ -58,15 +47,10 @@ public class Album extends BaseEntity{
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (ownerArtistGroup == null) {
-            if (other.ownerArtistGroup != null)
+        if (ownerName == null) {
+            if (other.ownerName != null)
                 return false;
-        } else if (!ownerArtistGroup.equals(other.ownerArtistGroup))
-            return false;
-        if (ownerArtists == null) {
-            if (other.ownerArtists != null)
-                return false;
-        } else if (!ownerArtists.equals(other.ownerArtists))
+        } else if (!ownerName.equals(other.ownerName))
             return false;
         if (songList == null) {
             if (other.songList != null)
@@ -77,11 +61,8 @@ public class Album extends BaseEntity{
     }
     @Override
     public String toString() {
-        if(ownerArtistGroup!=null){
-            return "Album [id=" + id +"name=" + name + ", owner=" + ownerArtistGroup + ", songList=" + songList + "]";
-        }
         return "Album [id=" + id +"name=" + name + ", owner="
-                + ownerArtists + ", songList=" + songList + "]";
+                + ownerName + ", songList=" + songList + "]";
     } 
 
     
