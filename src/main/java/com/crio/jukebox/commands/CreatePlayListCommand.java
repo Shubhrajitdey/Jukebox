@@ -29,6 +29,8 @@ public class CreatePlayListCommand implements ICommand{
             System.out.println("User is Not Present. Please try again");
         }catch (SongNotFoundException e){
             System.out.println("Some Requested Songs Not Available. Please try again.");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }
