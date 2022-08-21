@@ -68,7 +68,7 @@ public class UserPlayListService implements IUserPlayListService{
     }
 
     @Override
-    public String createPlayList(String userId, String PlayListName, List<String> songs) throws UserNotFoundException,SongNotFoundException {
+    public PlayList createPlayList(String userId, String PlayListName, List<String> songs) throws UserNotFoundException,SongNotFoundException {
         User currUser=iUserRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User No Found"));
         List<Song> listOfAllSongs=new LinkedList<Song>();
         for(String songId:songs){
@@ -88,7 +88,7 @@ public class UserPlayListService implements IUserPlayListService{
             UserPlayList userPlayList=new UserPlayList(null,currUser,new ArrayList<PlayList>(Collections.singletonList(savedPlayList)));
             userPlayListRepository.save(userPlayList);
         }
-        return savedPlayList.getId();
+        return savedPlayList;
     }
 
 
