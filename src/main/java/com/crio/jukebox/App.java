@@ -43,7 +43,7 @@ public class App {
         iUserPlayListService.createPlayList("1","My Pop Songs",Arrays.asList("1"));
 //        System.out.println("--------------------------------------------");
 //        System.out.println(userPlayListRepository.findAll());
-        iUserPlayListService.addSongToPlayList("1","1",Arrays.asList("1","7","8"));
+        iUserPlayListService.addSongToPlayList("1","1",Arrays.asList("1","7","8","10","12","15"));
 //        System.out.println("--------------------------------------------");
 //        System.out.println(userPlayListRepository.findAll());
 //        iUserPlayListService.deleteSongFromPlayList("1","1",Arrays.asList("1"));
@@ -61,6 +61,9 @@ public class App {
         //System.out.println(iUserPlayListService.playSongByOrder("1", SongPlayingOrder.BACK));
         System.out.println("NEXT 3- "+iUserPlayListService.playSongByOrder("1", SongPlayingOrder.NEXT));
         System.out.println("--------------------------------------------");
+        System.out.println("Change Current 10 -"+iUserPlayListService.playSongById("1","10"));
+        System.out.println("--------------------------------------------");
+        System.out.println("Change Current 100 -"+iUserPlayListService.playSongById("1","22"));
 
 	}
 
