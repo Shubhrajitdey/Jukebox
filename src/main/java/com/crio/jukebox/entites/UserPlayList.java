@@ -47,7 +47,7 @@ public class UserPlayList extends BaseEntity{
     }
     @Override
     public String toString() {
-        return "UserPlayList [id=" + id+" playLists=" + playLists + ", user=" + user + "]";
+        return "UserPlayList [id=" + id+", playLists=" + playLists + ", user=" + user + "]";
     }
     
     

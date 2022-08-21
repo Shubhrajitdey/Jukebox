@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.dtos.UserRegistrationDto;
@@ -52,7 +53,7 @@ public class WithdrawContestCommandTest {
         doThrow(new ContestNotFoundException(expectedOutput)).when(userServiceMock).withdrawContest(contestId,"Joey");
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,"Joey"));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -70,7 +71,7 @@ public class WithdrawContestCommandTest {
         doThrow(new UserNotFoundException(expectedOutput)).when(userServiceMock).withdrawContest(contestId,userName);
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,userName));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -87,7 +88,7 @@ public class WithdrawContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).withdrawContest(contestId,"Joey");
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,"Joey"));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -104,7 +105,7 @@ public class WithdrawContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).withdrawContest(contestId,"Joey");
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,"Joey"));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -121,7 +122,7 @@ public class WithdrawContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).withdrawContest(contestId,"Joey");
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,"Joey"));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -139,7 +140,7 @@ public class WithdrawContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).withdrawContest(contestId,userName);
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,userName));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -157,7 +158,7 @@ public class WithdrawContestCommandTest {
         when(userServiceMock.withdrawContest(contestId, userName)).thenReturn(new UserRegistrationDto("Contest#1", userName, RegisterationStatus.NOT_REGISTERED));
 
         //Act
-        withdrawContestCommand.execute(List.of("WITHDRAW-CONTEST",contestId,userName));
+        withdrawContestCommand.execute(Arrays.asList("WITHDRAW-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

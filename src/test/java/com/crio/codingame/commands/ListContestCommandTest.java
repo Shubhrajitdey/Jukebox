@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.entities.Contest;
@@ -78,7 +79,7 @@ public class ListContestCommandTest {
         when(contestServiceMock.getAllContestLevelWise(any(Level.class))).thenReturn(contestList);
 
         //Act
-        listContestCommand.execute(List.of("LIST-CONTEST","MEDIUM"));
+        listContestCommand.execute(Arrays.asList("LIST-CONTEST","MEDIUM"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -119,7 +120,7 @@ public class ListContestCommandTest {
         when(contestServiceMock.getAllContestLevelWise(isNull())).thenReturn(contestList);
 
         //Act
-        listContestCommand.execute(List.of("LIST-CONTEST"));
+        listContestCommand.execute(Arrays.asList("LIST-CONTEST"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

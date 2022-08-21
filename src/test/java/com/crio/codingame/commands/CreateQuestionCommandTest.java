@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.entities.Level;
@@ -51,7 +52,7 @@ public class CreateQuestionCommandTest {
         when(questionServiceMock.create(anyString(),any(Level.class),anyInt())).thenReturn(question);
 
         //Act
-        createQuestionCommand.execute(List.of("CREATE-QUESTION","Question 1","MEDIUM","50"));
+        createQuestionCommand.execute(Arrays.asList("CREATE-QUESTION","Question 1","MEDIUM","50"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

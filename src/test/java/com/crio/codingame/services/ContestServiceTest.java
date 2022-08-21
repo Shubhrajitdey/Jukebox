@@ -6,10 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.crio.codingame.dtos.UserRegistrationDto;
 import com.crio.codingame.entities.Contest;
@@ -371,7 +368,7 @@ public class ContestServiceTest {
         contestCreator.addContest(contest);
         user1.addContest(contest);
         when(contestRepositoryMock.findById(anyString())).thenReturn(Optional.of(contest));
-        when(userRepositoryMock.findAll()).thenReturn(List.of(contestCreator,user1,user2));
+        when(userRepositoryMock.findAll()).thenReturn(Arrays.asList(contestCreator,user1,user2));
         when(contestRepositoryMock.save(any(Contest.class))).thenReturn(contestEnded);
 
         // Act

@@ -21,7 +21,7 @@ public class CreatePlayListCommand implements ICommand{
     public void execute(List<String> tokens) {
         try{
             List<String> csong=new ArrayList<String>();
-            for(int i=3;i<tokens.size()-1;i++)
+            for(int i=3;i<tokens.size();i++)
                 csong.add(tokens.get(i));
             PlayList playList=userPlayListService.createPlayList(tokens.get(1),tokens.get(2),csong);
             System.out.println(playList);

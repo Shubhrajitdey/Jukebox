@@ -15,7 +15,7 @@ public class CreateUserCommand implements ICommand{
     @Override
     public void execute(List<String> tokens) {
         try{
-            User user=userService.create(tokens.get(0));
+            User user=userService.create(tokens.get(1));
             System.out.println(user);
         }catch (Exception e){
             System.out.println("Something Go Wrong While Creating User");

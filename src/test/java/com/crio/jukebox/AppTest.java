@@ -4,6 +4,7 @@ package com.crio.jukebox;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -28,7 +29,7 @@ public class AppTest {
     void runTest1(){
 
         //Arrange
-        List<String> arguments= new ArrayList<>(List.of("INPUT_FILE=jukebox-input.txt"));
+        List<String> arguments= new ArrayList<>(Arrays.asList("INPUT_FILE=jukebox-input.txt"));
 
 		String expectedOutput = "Songs Loaded successfully\n"+
         "1 Kiran\n"+

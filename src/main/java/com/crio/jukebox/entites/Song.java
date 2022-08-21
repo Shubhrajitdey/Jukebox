@@ -64,7 +64,7 @@ public class Song extends BaseEntity{
     }
     @Override
     public String toString() {
-        return "Song [id=" + id +"artis=" + artis + ", name=" + name + "]";
+        return "Song [id=" + id +", artis=" + artis + ", name=" + name + "]";
     } 
     
     

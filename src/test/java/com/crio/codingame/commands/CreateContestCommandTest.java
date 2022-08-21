@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.entities.Contest;
@@ -66,7 +67,7 @@ public class CreateContestCommandTest {
         when(contestServiceMock.create(anyString(),any(Level.class),anyString(),anyInt())).thenReturn(contest);
 
         //Act
-        createContestCommand.execute(List.of("CREATE-CONTEST","name","LOW","creator","2"));
+        createContestCommand.execute(Arrays.asList("CREATE-CONTEST","name","LOW","creator","2"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -90,7 +91,7 @@ public class CreateContestCommandTest {
         when(contestServiceMock.create(anyString(),any(Level.class),anyString(),isNull())).thenReturn(contest);
 
         //Act
-        createContestCommand.execute(List.of("CREATE-CONTEST","name","LOW","creator"));
+        createContestCommand.execute(Arrays.asList("CREATE-CONTEST","name","LOW","creator"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -106,7 +107,7 @@ public class CreateContestCommandTest {
         doThrow(new UserNotFoundException(expectedOutput)).when(contestServiceMock).create(anyString(),any(Level.class),anyString(),isNull());
 
         //Act
-        createContestCommand.execute(List.of("CREATE-CONTEST","name","LOW","creator"));
+        createContestCommand.execute(Arrays.asList("CREATE-CONTEST","name","LOW","creator"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -122,7 +123,7 @@ public class CreateContestCommandTest {
         doThrow(new QuestionNotFoundException(expectedOutput)).when(contestServiceMock).create(anyString(),any(Level.class),anyString(),isNull());
 
         //Act
-        createContestCommand.execute(List.of("CREATE-CONTEST","name","LOW","creator"));
+        createContestCommand.execute(Arrays.asList("CREATE-CONTEST","name","LOW","creator"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

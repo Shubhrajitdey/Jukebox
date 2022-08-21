@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.dtos.UserRegistrationDto;
@@ -52,7 +53,7 @@ public class AttendContestCommandTest {
         doThrow(new ContestNotFoundException(expectedOutput)).when(userServiceMock).attendContest(contestId,"Joey");
 
         //Act
-        attendContestCommand.execute(List.of("ATTEND-CONTEST",contestId,"Joey"));
+        attendContestCommand.execute(Arrays.asList("ATTEND-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -70,7 +71,7 @@ public class AttendContestCommandTest {
         doThrow(new UserNotFoundException(expectedOutput)).when(userServiceMock).attendContest(contestId,userName);
 
         //Act
-        attendContestCommand.execute(List.of("ATTEND-CONTEST",contestId,userName));
+        attendContestCommand.execute(Arrays.asList("ATTEND-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -87,7 +88,7 @@ public class AttendContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).attendContest(contestId,"Joey");
 
         //Act
-        attendContestCommand.execute(List.of("ATTEND-CONTEST",contestId,"Joey"));
+        attendContestCommand.execute(Arrays.asList("ATTEND-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -104,7 +105,7 @@ public class AttendContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).attendContest(contestId,"Joey");
 
         //Act
-        attendContestCommand.execute(List.of("ATTEND-CONTEST",contestId,"Joey"));
+        attendContestCommand.execute(Arrays.asList("ATTEND-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -121,7 +122,7 @@ public class AttendContestCommandTest {
         doThrow(new InvalidOperationException(expectedOutput)).when(userServiceMock).attendContest(contestId,"Joey");
 
         //Act
-        attendContestCommand.execute(List.of("ATTEND-CONTEST",contestId,"Joey"));
+        attendContestCommand.execute(Arrays.asList("ATTEND-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -139,7 +140,7 @@ public class AttendContestCommandTest {
         when(userServiceMock.attendContest(contestId, userName)).thenReturn(new UserRegistrationDto("Contest#1", userName, RegisterationStatus.REGISTERED));
 
         //Act
-        attendContestCommand.execute(List.of("ATTEND-CONTEST",contestId,userName));
+        attendContestCommand.execute(Arrays.asList("ATTEND-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

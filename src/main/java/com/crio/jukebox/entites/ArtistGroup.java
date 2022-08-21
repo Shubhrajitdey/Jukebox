@@ -43,7 +43,7 @@ public class ArtistGroup extends BaseEntity{
 
     @Override
     public String toString() {
-        return "ArtistGroup [id=" + id +"name=" + name + "]";
+        return "ArtistGroup [id=" + id +", name=" + name + "]";
     }
     
     

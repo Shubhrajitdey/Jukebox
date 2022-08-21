@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.dtos.ContestSummaryDto;
@@ -55,7 +56,7 @@ public class RunContestCommandTest {
         doThrow(new ContestNotFoundException(expectedOutput)).when(contestServiceMock).runContest(contestId,"Joey");
 
         //Act
-        runContestCommand.execute(List.of("RUN-CONTEST",contestId,"Joey"));
+        runContestCommand.execute(Arrays.asList("RUN-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -73,7 +74,7 @@ public class RunContestCommandTest {
         doThrow(new InvalidContestException(expectedOutput)).when(contestServiceMock).runContest(contestId,"Joey");
 
         //Act
-        runContestCommand.execute(List.of("RUN-CONTEST",contestId,"Joey"));
+        runContestCommand.execute(Arrays.asList("RUN-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -90,7 +91,7 @@ public class RunContestCommandTest {
         doThrow(new InvalidContestException(expectedOutput)).when(contestServiceMock).runContest(contestId,"Joey");
 
         //Act
-        runContestCommand.execute(List.of("RUN-CONTEST",contestId,"Joey"));
+        runContestCommand.execute(Arrays.asList("RUN-CONTEST",contestId,"Joey"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -108,7 +109,7 @@ public class RunContestCommandTest {
         doThrow(new InvalidContestException(expectedOutput)).when(contestServiceMock).runContest(contestId,userName);
 
         //Act
-        runContestCommand.execute(List.of("RUN-CONTEST",contestId,userName));
+        runContestCommand.execute(Arrays.asList("RUN-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
@@ -135,16 +136,16 @@ public class RunContestCommandTest {
         final User user = new User("4","user4",0);
         Contest contest = new Contest("4","contest4",questionLow,Level.LOW, user,ContestStatus.ENDED);
         User user1 = new User("1", "name1", 10);
-        user1.addContestQuestion(contest,List.of(question1,question2));
+        user1.addContestQuestion(contest,Arrays.asList(question1,question2));
         User user2 = new User("2", "name2", 20);
-        user2.addContestQuestion(contest,List.of(question1,question3));
+        user2.addContestQuestion(contest,Arrays.asList(question1,question3));
         User user3 = new User("3", "name3", 30);
-        user3.addContestQuestion(contest,List.of(question2,question3));
+        user3.addContestQuestion(contest,Arrays.asList(question2,question3));
         String expectedOutput = "[UserName:name1 [Questions: [Question [id=4, level=LOW, score=10, title=title4], Question [id=5, level=LOW, score=20, title=title5]]]], [UserName:name2 [Questions: [Question [id=4, level=LOW, score=10, title=title4], Question [id=6, level=LOW, score=30, title=title6]]]], [UserName:name3 [Questions: [Question [id=5, level=LOW, score=20, title=title5], Question [id=6, level=LOW, score=30, title=title6]]]]";
-        when(contestServiceMock.runContest(contestId, userName)).thenReturn(new ContestSummaryDto(contest,List.of(user1,user2,user3)));
+        when(contestServiceMock.runContest(contestId, userName)).thenReturn(new ContestSummaryDto(contest,Arrays.asList(user1,user2,user3)));
 
         //Act
-        runContestCommand.execute(List.of("RUN-CONTEST",contestId,userName));
+        runContestCommand.execute(Arrays.asList("RUN-CONTEST",contestId,userName));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

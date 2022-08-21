@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.entities.ScoreOrder;
@@ -48,11 +49,11 @@ public class LeaderBoardCommandTest {
         User user1 = new User("1","name1",30);
         User user2 = new User("3","name3",40);
         User user3 = new User("2","name2",50);
-        List<User> userList = List.of(user1,user2,user3);
+        List<User> userList = Arrays.asList(user1,user2,user3);
         when(userServiceMock.getAllUserScoreOrderWise(any(ScoreOrder.class))).thenReturn(userList);
 
         //Act
-        leaderboardCommand.execute(List.of("LEADERBOARD","ASC"));
+        leaderboardCommand.execute(Arrays.asList("LEADERBOARD","ASC"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());

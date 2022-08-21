@@ -26,7 +26,10 @@ public class SongRepository implements ISongRepository{
 
     @Override
     public List<Song> findAll() {
-        return songsList.values().stream().collect(Collectors.toList());
+        return songsList.values()
+                        .stream()
+                        .sorted((s1,s2)->Integer.valueOf(s1.getId())-Integer.valueOf(s2.getId()))
+                        .collect(Collectors.toList());
     }
 
     @Override

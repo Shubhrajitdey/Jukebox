@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 
 import com.crio.codingame.entities.User;
@@ -48,7 +49,7 @@ public class CreateUserCommandTest {
         when(userServiceMock.create("name")).thenReturn(user);
 
         //Act
-        createUserCommand.execute(List.of("CREATE-USER","name"));
+        createUserCommand.execute(Arrays.asList("CREATE-USER","name"));
 
         //Assert
         Assertions.assertEquals(expectedOutput, outputStreamCaptor.toString().trim());
