@@ -51,7 +51,7 @@ public class PlayList extends BaseEntity{
             return false;
         return true;
     }
-    public SongPlayingStatus getSongPlayingStatus(SongPlayingStatus playing) {
+    public SongPlayingStatus getSongPlayingStatus() {
         return songPlayingStatus;
     }
 

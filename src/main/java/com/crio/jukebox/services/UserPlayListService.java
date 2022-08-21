@@ -18,9 +18,11 @@ public class UserPlayListService implements IUserPlayListService{
 
     private IUserPlayListRepository userPlayListRepository;
 
-    private LinkedList<Song> currSongPlaylistQueue;
+    private List<Song> currSongPlaylistQueue;
 
-    private ListIterator<Song> songIterator;
+    private Integer currentSongPlayingIdx;
+
+    //private ListIterator<Song> songIterator;
 
     public UserPlayListService(IUserRepository iUserRepository, ISongRepository iSongRepository, IUserPlayListRepository userPlayListRepository) {
         this.iUserRepository = iUserRepository;
@@ -38,27 +40,35 @@ public class UserPlayListService implements IUserPlayListService{
     public UserPlayedSongDto playSongByOrder(String userId, SongPlayingOrder playingOrder) throws UserNotFoundException {
         User currUser=iUserRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User No Found"));
         if(playingOrder==SongPlayingOrder.NEXT){
-            if(songIterator.hasNext()){
-                Song currentPlayingSong=songIterator.next();
-                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
-                return userPlayedSongDto;
-            }else{
-                songIterator=currSongPlaylistQueue.listIterator();
-                Song currentPlayingSong=songIterator.next();
-                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
-                return userPlayedSongDto;
-            }
+            currentSongPlayingIdx=(currentSongPlayingIdx+1)%currSongPlaylistQueue.size();
+            Song currentPlayingSong=currSongPlaylistQueue.get(currentSongPlayingIdx);
+            UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
+            return userPlayedSongDto;
+//            if(songIterator.hasNext()){
+//                Song currentPlayingSong=songIterator.next();
+//                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
+//                return userPlayedSongDto;
+//            }else{
+//                songIterator=currSongPlaylistQueue.listIterator();
+//                Song currentPlayingSong=songIterator.next();
+//                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
+//                return userPlayedSongDto;
+//            }
         }else if(playingOrder==SongPlayingOrder.BACK){
-            if(songIterator.hasPrevious()){
-                Song currentPlayingSong=songIterator.previous();
-                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
-                return userPlayedSongDto;
-            }else{
-                songIterator=currSongPlaylistQueue.listIterator();
-                Song currentPlayingSong=songIterator.previous();
-                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
-                return userPlayedSongDto;
-            }
+            currentSongPlayingIdx=(currentSongPlayingIdx-1+currSongPlaylistQueue.size())%currSongPlaylistQueue.size();
+            Song currentPlayingSong=currSongPlaylistQueue.get(currentSongPlayingIdx);
+            UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
+            return userPlayedSongDto;
+//            if(songIterator.hasPrevious()){
+//                Song currentPlayingSong=songIterator.previous();
+//                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
+//                return userPlayedSongDto;
+//            }else{
+//                songIterator=currSongPlaylistQueue.listIterator();
+//                Song currentPlayingSong=songIterator.previous();
+//                UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currentPlayingSong.getName(),currentPlayingSong.getAlbumName(),String.join(", ", currentPlayingSong.getArtis().toString()));
+//                return userPlayedSongDto;
+//            }
         }
         return null;
     }
@@ -133,16 +143,22 @@ public class UserPlayListService implements IUserPlayListService{
         User currUser=iUserRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User No Found"));
         if(!userPlayListRepository.isPlayListExistByPlayListId(userId,playListId)) throw new PlayListNotFoundException("PlayList is Not Found!!!");
         List<PlayList> listOfPlayList=userPlayListRepository.findAllPlayListByUserId(currUser.getId());
+        for(PlayList curPlay:listOfPlayList){
+            if(curPlay.getSongPlayingStatus()==SongPlayingStatus.PLAYING && !curPlay.getId().equals(playListId)){
+                curPlay.setSongPlayingStatus(SongPlayingStatus.NOT_PLAYING);
+            }
+        }
         PlayList currentPlayList=listOfPlayList.stream().filter(p->p.getId().equals(playListId)).findFirst().get();
-        currentPlayList.getSongPlayingStatus(SongPlayingStatus.PLAYING);
+        currentPlayList.setSongPlayingStatus(SongPlayingStatus.PLAYING);
         currSongPlaylistQueue.clear();
         for(Song song:currentPlayList.getSongs()){
             currSongPlaylistQueue.add(song);
         }
-        songIterator=currSongPlaylistQueue.listIterator();
-        Song currSong=currSongPlaylistQueue.getFirst();
+        //songIterator=currSongPlaylistQueue.listIterator();
+        currentSongPlayingIdx=0;
+        Song currSong=currSongPlaylistQueue.get(currentSongPlayingIdx);
         UserPlayedSongDto userPlayedSongDto=new UserPlayedSongDto(currUser.getName(),currSong.getName(),currSong.getAlbumName(),currSong.getArtis().toString());
-        songIterator.next();
+        //songIterator.next();
         return userPlayedSongDto;
     }
 }
